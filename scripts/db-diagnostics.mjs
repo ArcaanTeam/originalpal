@@ -58,6 +58,11 @@ export function formatDatabaseError(error, { databaseUrl, operation }) {
       "Check that the DATABASE_URL host and port are correct, PostgreSQL is running and accepting connections, and any firewall or network rules allow access.",
       "If PostgreSQL runs in Docker, use an address reachable from this shell (often localhost with the published port, not the container-only service name). Check SSL URL options if the server requires TLS.",
     );
+    if (/connection terminated unexpectedly/i.test(message)) {
+      lines.push(
+        "The socket opened but closed before PostgreSQL completed its startup handshake. Confirm this port is actually PostgreSQL (for Docker, commonly host 5438 mapped to container 5432), inspect the database server logs, and verify it accepts connections to the maintenance database `postgres`.",
+      );
+    }
   } else if (codeValue === "28P01" || codeValue === "28000") {
     lines.push(
       "Check the username/password in DATABASE_URL and verify that the role is allowed to connect from this host.",

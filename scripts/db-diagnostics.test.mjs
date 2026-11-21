@@ -61,5 +61,7 @@ describe("database diagnostics", () => {
     );
     expect(message).toContain("PostgreSQL is running");
     expect(message).toContain("SSL");
+    expect(message).toContain("startup handshake");
+    expect(message).toContain("maintenance database `postgres`");
   });
 });
