@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./styles/theme.css";
+@import "./styles/liquid-glass.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --text-xs: calc(0.75rem * var(--ui-scale, 1));
+  --text-sm: calc(0.875rem * var(--ui-scale, 1));
+  --text-base: calc(1rem * var(--ui-scale, 1));
+  --text-lg: calc(1.125rem * var(--ui-scale, 1));
+  --text-xl: calc(1.25rem * var(--ui-scale, 1));
+  --text-2xl: calc(1.5rem * var(--ui-scale, 1));
+  --text-3xl: calc(1.875rem * var(--ui-scale, 1));
+  --font-sans: var(--font-iran-sans), ui-sans-serif, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-card-chrome: var(--card-chrome);
+  --color-card-solid: var(--card-solid);
+  --color-field: var(--field);
+  --color-field-foreground: var(--field-foreground);
+  --color-field-border: var(--field-border);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-icon-surface: var(--icon-surface);
+  --color-link-foreground: var(--link-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-hover: var(--hover);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-shell-surface: var(--shell-surface);
+}
+
+@layer utilities {
+  .text-micro {
+    font-size: calc(10px * var(--ui-scale, 1));
+  }
+
+  .text-caption {
+    font-size: calc(11px * var(--ui-scale, 1));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.32) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.26);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.42);
+  }
+
+  html {
+    @apply overflow-x-hidden font-sans;
+    font-variation-settings: var(--font-variation-iransans);
+    font-feature-settings: var(--font-feature-iransans);
+  }
+
+  /* Portals / overlays inherit the IRANSansX settings */
+  [data-sonner-toaster],
+  [data-base-ui-portal] {
+    font-family: inherit;
+    font-variation-settings: inherit;
+    font-feature-settings: inherit;
+  }
+
+  body {
+    @apply min-h-svh w-full bg-background font-sans text-foreground;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 767px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+}

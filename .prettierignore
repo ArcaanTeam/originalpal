@@ -1,0 +1,26 @@
+# Dependencies & build
+node_modules
+.next
+out
+build
+dist
+coverage
+pnpm-lock.yaml
+*.tsbuildinfo
+next-env.d.ts
+
+# Unrelated / tooling (not app source)
+.agents
+.claude/skills
+docker
+graphify-out
+
+# Generated: drizzle-kit migrations and snapshots (pnpm migrate:diff)
+drizzle
+
+# Env & misc
+.env
+.env.*
+!.env.example
+*.min.js
+*.min.css

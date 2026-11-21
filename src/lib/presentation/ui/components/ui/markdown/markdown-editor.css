@@ -1,0 +1,146 @@
+.markdown-editor-shell {
+  --md-editor-scale: var(--ui-scale, 1);
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: var(--tree-glass-input-bg, rgba(0, 0, 0, 0.22));
+  color: var(--tree-glass-text);
+}
+
+.markdown-editor-body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+  background: transparent;
+}
+
+.markdown-editor-split {
+  min-height: 0;
+  flex: 1;
+}
+
+.markdown-editor-split-handle {
+  flex-shrink: 0;
+  width: 6px;
+  background: var(--tree-glass-border-subtle);
+  transition: background-color 0.15s ease;
+}
+
+.markdown-editor-split-handle:hover,
+.markdown-editor-split-handle[data-separator="active"] {
+  background: color-mix(in srgb, var(--tree-glass-muted) 55%, transparent);
+}
+
+.markdown-editor-shell--loading {
+  pointer-events: none;
+  user-select: none;
+}
+
+.markdown-editor-shell--loading .markdown-editor-toolbar {
+  opacity: 0.45;
+}
+
+.markdown-editor-shell--loading .markdown-editor-pane {
+  opacity: 0.35;
+}
+
+.markdown-editor-loading-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(
+    in srgb,
+    var(--tree-glass-input-bg, rgba(0, 0, 0, 0.22)) 72%,
+    transparent
+  );
+  backdrop-filter: blur(2px);
+}
+
+.markdown-editor-loading-spinner {
+  color: color-mix(in srgb, var(--tree-glass-muted) 88%, transparent);
+}
+
+.markdown-editor-loading-label {
+  color: color-mix(in srgb, var(--tree-glass-muted) 75%, transparent);
+}
+
+.markdown-editor-pane {
+  min-height: 0;
+  min-width: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.markdown-editor-pane--source {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.markdown-editor-pane--source > div {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.markdown-editor-pane--source .cm-editor,
+.markdown-editor-pane--source .cm-scroller,
+.markdown-editor-pane--source .cm-gutters {
+  background: transparent !important;
+}
+
+.markdown-editor-pane--source .cm-editor {
+  flex: 1;
+  min-height: 12rem;
+}
+
+.markdown-editor-pane--source .cm-scroller {
+  min-height: 100%;
+  overflow: auto;
+}
+
+.markdown-editor-pane--source .cm-content {
+  direction: auto;
+  text-align: start;
+  unicode-bidi: plaintext;
+}
+
+.markdown-editor-pane--source .cm-line {
+  direction: inherit;
+}
+
+.markdown-editor-pane--preview,
+.markdown-editor-pane--preview-only {
+  background: transparent;
+}
+
+.markdown-editor-pane--preview,
+.markdown-editor-pane--preview-only {
+  padding: calc(10px * var(--md-editor-scale));
+}
+
+/*
+ * Split preview sits against the resize handle. In RTL the handle is on the
+ * inline-start edge where outside list markers are painted.
+ */
+.markdown-editor-pane--preview .markdown-content ul,
+.markdown-editor-pane--preview .markdown-content ol {
+  list-style-position: inside;
+  padding-inline-start: 0.25em;
+}
+
+.markdown-editor-toolbar {
+  background: var(--tree-glass-tabs-bg, rgba(0, 0, 0, 0.16));
+  border-bottom-color: var(--tree-glass-border-subtle);
+}

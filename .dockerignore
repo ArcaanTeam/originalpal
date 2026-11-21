@@ -1,0 +1,32 @@
+# Dependencies and build output
+node_modules
+.next
+out
+coverage
+build
+uploads
+
+# Local env and secrets
+.env
+.env.*
+!.env.example
+
+# Git and editor
+.git
+.gitignore
+.agents
+
+# Tests and dev tooling
+**/*.test.ts
+**/*.test.tsx
+vitest.config.mts
+eslint.config.mjs
+
+# Docs and misc
+README.md
+AGENTS.md
+*.md
+.DS_Store
+npm-debug.log*
+.pnpm-debug.log*
+

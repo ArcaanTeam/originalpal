@@ -1,0 +1,206 @@
+/*
+ * Design tokens — ported from panel-web (src/styles/theme.css), default color
+ * mode. Every neutral surface/ink token is built from one hue (--surface-hue)
+ * so cards, fields and popovers sit in the same family as the shell.
+ * Elevation ladder: background → card (solid or liquid glass) → field →
+ * popover → muted/accent (hover, chips). Text pairs meet WCAG AA.
+ */
+:root {
+  --radius: 0.625rem;
+  /* IRANSansX: DOTS axis only (weight comes from font-weight) */
+  --font-variation-iransans: "DOTS" 8;
+  /* ss02 = Persian digits from Latin 0-9; rlig = تومان ligature */
+  --font-feature-iransans: "ss02" 1, "rlig" 1;
+  --brand: oklch(0.6326 0.162 252.25);
+
+  --surface-hue: 259;
+  --surface-tint: 1;
+  --shell-surface: rgb(245, 245, 245);
+  --background: var(--shell-surface);
+  --foreground: oklch(0.16 calc(0.04 * var(--surface-tint)) var(--surface-hue));
+  --card: oklch(1 0 0);
+  --card-foreground: var(--foreground);
+  /* Always-opaque card; --card may turn translucent on the glass shell */
+  --card-solid: var(--card);
+  /* Sticky bars over scrolling content (frosted on the glass shell) */
+  --card-chrome: var(--card);
+  /* Filled (iOS-style) fields: soft tint + near-invisible hairline */
+  --field: oklch(0.962 calc(0.01 * var(--surface-tint)) var(--surface-hue));
+  --field-border: color-mix(in oklab, var(--foreground) 9%, transparent);
+  --field-foreground: var(--foreground);
+  --field-solid: var(--field);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--foreground);
+  --primary: oklch(0.24 calc(0.045 * var(--surface-tint)) var(--surface-hue));
+  --primary-foreground: oklch(0.985 0.004 var(--surface-hue));
+  --secondary: oklch(0.955 calc(0.01 * var(--surface-tint)) var(--surface-hue));
+  --secondary-foreground: var(--primary);
+  --muted: var(--secondary);
+  --muted-foreground: oklch(
+    0.5 calc(0.04 * var(--surface-tint)) var(--surface-hue)
+  );
+  --link-foreground: oklch(0.43 0.044 258);
+  --accent: var(--secondary);
+  /* Hover fill for transparent controls; translucent so it reads on glass */
+  --hover: color-mix(in oklab, var(--foreground) 7%, transparent);
+  /* Round icon badges (empty states, list icons) */
+  --icon-surface: color-mix(in oklab, var(--foreground) 12%, transparent);
+  --accent-foreground: var(--primary);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.915 calc(0.012 * var(--surface-tint)) var(--surface-hue));
+  --input: oklch(0.85 calc(0.016 * var(--surface-tint)) var(--surface-hue));
+  --ring: color-mix(in oklab, var(--brand) 80%, white);
+
+  /*
+   * Ambient page light behind the glass (liquid-glass.css `.app-page-glow`).
+   * Light mode: soft brand-tinted light; dark mode uses white light.
+   */
+  --page-top-glow: radial-gradient(
+    ellipse 70% 65% at 40% 15%,
+    color-mix(in oklab, var(--brand) 42%, transparent) 0%,
+    color-mix(in oklab, var(--brand) 40.2%, transparent) 11.3%,
+    color-mix(in oklab, var(--brand) 35.44%, transparent) 22.5%,
+    color-mix(in oklab, var(--brand) 28.71%, transparent) 33.8%,
+    color-mix(in oklab, var(--brand) 21%, transparent) 45%,
+    color-mix(in oklab, var(--brand) 13.29%, transparent) 56.3%,
+    color-mix(in oklab, var(--brand) 6.56%, transparent) 67.5%,
+    color-mix(in oklab, var(--brand) 1.8%, transparent) 78.8%,
+    transparent 90%
+  );
+  --page-middle-glow: radial-gradient(
+    ellipse 55% 55% at 20% 90%,
+    color-mix(in oklab, var(--brand) 34%, transparent) 0%,
+    color-mix(in oklab, var(--brand) 32.54%, transparent) 11.5%,
+    color-mix(in oklab, var(--brand) 28.69%, transparent) 23%,
+    color-mix(in oklab, var(--brand) 23.24%, transparent) 34.5%,
+    color-mix(in oklab, var(--brand) 17%, transparent) 46%,
+    color-mix(in oklab, var(--brand) 10.76%, transparent) 57.5%,
+    color-mix(in oklab, var(--brand) 5.31%, transparent) 69%,
+    color-mix(in oklab, var(--brand) 1.46%, transparent) 80.5%,
+    transparent 92%
+  );
+
+  /* Liquid glass — shell and auth card (liquid-glass.css) */
+  --liquid-glass-bg: color-mix(in oklab, var(--card) 62%, transparent);
+  --liquid-glass-border: color-mix(in oklab, white 75%, transparent);
+  --liquid-glass-highlight: color-mix(in oklab, white 90%, transparent);
+  --liquid-glass-rim: color-mix(in oklab, white 40%, transparent);
+  --liquid-glass-sheen: color-mix(in oklab, white 55%, transparent);
+  --liquid-glass-hairline: color-mix(
+    in oklab,
+    var(--foreground) 7%,
+    transparent
+  );
+  --liquid-glass-depth:
+    0 0 0 0.5px color-mix(in oklab, var(--foreground) 6%, transparent),
+    0 1px 2px color-mix(in oklab, var(--foreground) 4%, transparent),
+    0 12px 28px -16px color-mix(in oklab, var(--foreground) 20%, transparent);
+  --liquid-glass-sheen-height: 9rem;
+  --liquid-glass-grain-opacity: 0.1;
+  --liquid-glass-grain-size: 160px;
+  --liquid-glass-grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Inner glass panels (cards on the shell) — frosted veil, not a slab */
+  --liquid-glass-panel-bg: color-mix(in oklab, white 55%, transparent);
+  --liquid-glass-panel-sheen: color-mix(in oklab, white 50%, transparent);
+  --liquid-glass-panel-border: color-mix(in oklab, white 80%, transparent);
+  --liquid-glass-panel-highlight: color-mix(in oklab, white 95%, transparent);
+  --liquid-glass-panel-depth:
+    0 0 0 0.5px color-mix(in oklab, var(--foreground) 5%, transparent),
+    0 1px 2px color-mix(in oklab, var(--foreground) 4%, transparent),
+    0 12px 28px -18px color-mix(in oklab, var(--foreground) 18%, transparent);
+  /* Fields on bare glass: frosted fill a step lighter than the glass */
+  --liquid-glass-field-bg: color-mix(in oklab, white 40%, transparent);
+  /* Fields inside glass panels: faint tint (panel is already near-white) */
+  --liquid-glass-panel-field-bg: color-mix(
+    in oklab,
+    var(--foreground) 5%,
+    transparent
+  );
+}
+
+.dark {
+  --shell-surface: oklch(0.14 0.04 259.21);
+  --foreground: oklch(
+    0.975 calc(0.006 * var(--surface-tint)) var(--surface-hue)
+  );
+  --card: oklch(0.195 calc(0.03 * var(--surface-tint)) var(--surface-hue));
+  --field: oklch(0.225 calc(0.032 * var(--surface-tint)) var(--surface-hue));
+  --popover: oklch(0.235 calc(0.034 * var(--surface-tint)) var(--surface-hue));
+  --primary: oklch(0.93 calc(0.016 * var(--surface-tint)) var(--surface-hue));
+  --primary-foreground: oklch(
+    0.2 calc(0.04 * var(--surface-tint)) var(--surface-hue)
+  );
+  --hover: color-mix(in oklab, white 10%, transparent);
+  --icon-surface: color-mix(in oklab, white 16%, transparent);
+  --secondary: oklch(0.29 calc(0.036 * var(--surface-tint)) var(--surface-hue));
+  --secondary-foreground: var(--foreground);
+  --muted-foreground: oklch(
+    0.74 calc(0.035 * var(--surface-tint)) var(--surface-hue)
+  );
+  --link-foreground: oklch(0.86 0.015 247.858);
+  --accent-foreground: var(--foreground);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --field-border: var(--input);
+  --ring: color-mix(in oklab, var(--brand) 75%, white);
+  --page-top-glow: radial-gradient(
+    ellipse at top,
+    color-mix(in oklab, white 12%, transparent) 0%,
+    color-mix(in oklab, white 11.48%, transparent) 9%,
+    color-mix(in oklab, white 10.13%, transparent) 18%,
+    color-mix(in oklab, white 8.2%, transparent) 27%,
+    color-mix(in oklab, white 6%, transparent) 36%,
+    color-mix(in oklab, white 3.8%, transparent) 45%,
+    color-mix(in oklab, white 1.88%, transparent) 54%,
+    color-mix(in oklab, white 0.52%, transparent) 63%,
+    transparent 72%
+  );
+  /* Low ambient light: a brand wash rising from the bottom-left corner and a
+     faint cool counter-light on the right. */
+  --page-middle-glow:
+    radial-gradient(
+      ellipse 75% 70% at 8% 105%,
+      color-mix(in oklab, var(--brand) 20%, transparent) 0%,
+      color-mix(in oklab, var(--brand) 19.14%, transparent) 12.5%,
+      color-mix(in oklab, var(--brand) 16.88%, transparent) 25%,
+      color-mix(in oklab, var(--brand) 13.67%, transparent) 37.5%,
+      color-mix(in oklab, var(--brand) 10%, transparent) 50%,
+      color-mix(in oklab, var(--brand) 6.33%, transparent) 62.5%,
+      color-mix(in oklab, var(--brand) 3.13%, transparent) 75%,
+      color-mix(in oklab, var(--brand) 0.86%, transparent) 87.5%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 50% 55% at 95% 75%,
+      color-mix(in oklab, white 6%, transparent) 0%,
+      color-mix(in oklab, white 5.74%, transparent) 12.5%,
+      color-mix(in oklab, white 5.06%, transparent) 25%,
+      color-mix(in oklab, white 4.1%, transparent) 37.5%,
+      color-mix(in oklab, white 3%, transparent) 50%,
+      color-mix(in oklab, white 1.9%, transparent) 62.5%,
+      color-mix(in oklab, white 0.94%, transparent) 75%,
+      color-mix(in oklab, white 0.26%, transparent) 87.5%,
+      transparent 100%
+    );
+  --liquid-glass-bg: color-mix(in oklab, var(--card) 42%, transparent);
+  --liquid-glass-border: color-mix(in oklab, white 12%, transparent);
+  --liquid-glass-highlight: color-mix(in oklab, white 14%, transparent);
+  --liquid-glass-rim: color-mix(in oklab, white 4%, transparent);
+  --liquid-glass-sheen: color-mix(in oklab, white 6%, transparent);
+  --liquid-glass-hairline: color-mix(in oklab, white 8%, transparent);
+  --liquid-glass-depth:
+    0 0 0 0.5px color-mix(in oklab, black 40%, transparent),
+    0 2px 6px -2px color-mix(in oklab, black 30%, transparent),
+    0 18px 40px -16px color-mix(in oklab, black 55%, transparent);
+  --liquid-glass-grain-opacity: 0.2;
+  --liquid-glass-panel-bg: color-mix(in oklab, white 4.5%, transparent);
+  --liquid-glass-panel-sheen: color-mix(in oklab, white 4%, transparent);
+  --liquid-glass-panel-border: color-mix(in oklab, white 9%, transparent);
+  --liquid-glass-panel-highlight: color-mix(in oklab, white 10%, transparent);
+  --liquid-glass-panel-depth:
+    0 1px 2px color-mix(in oklab, black 18%, transparent),
+    0 14px 32px -20px color-mix(in oklab, black 45%, transparent);
+  --liquid-glass-field-bg: color-mix(in oklab, white 6%, transparent);
+  --liquid-glass-panel-field-bg: var(--liquid-glass-field-bg);
+}
