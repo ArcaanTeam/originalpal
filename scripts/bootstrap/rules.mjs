@@ -51,6 +51,37 @@ export function toTitleCase(value) {
     .join(" ");
 }
 
+/** Derives PostgreSQL and in-network DSN settings for the local Compose stack. */
+export function getComposeDatabaseSettings(databaseUrl, fallbackDatabaseName) {
+  const url = new URL(databaseUrl);
+  if (!["postgres:", "postgresql:"].includes(url.protocol)) {
+    throw new Error(
+      "DATABASE_URL must use postgres:// or postgresql:// for Docker Compose.",
+    );
+  }
+
+  const databaseName =
+    decodeURIComponent(url.pathname.slice(1)) || fallbackDatabaseName;
+  const username = decodeURIComponent(url.username) || "postgres";
+  const password = decodeURIComponent(url.password) || "local-dev-change-me";
+  const dockerUrl = new URL(databaseUrl);
+  dockerUrl.hostname = "db";
+  dockerUrl.port = "5432";
+  dockerUrl.username = "";
+  dockerUrl.password = "";
+  dockerUrl.pathname = `/${encodeURIComponent(databaseName)}`;
+  const dockerConnectionUrl = `${dockerUrl.protocol}//${encodeURIComponent(username)}:${encodeURIComponent(password)}@${dockerUrl.host}${dockerUrl.pathname}${dockerUrl.search}`;
+
+  return {
+    POSTGRES_DB: databaseName,
+    POSTGRES_USER: username,
+    // Compose interprets `$` in .env values; escape it so the runtime password remains literal.
+    POSTGRES_PASSWORD: password.replaceAll("$", () => "$$"),
+    POSTGRES_PORT: url.port || "5439",
+    DATABASE_URL_DOCKER: dockerConnectionUrl,
+  };
+}
+
 /** Returns an error message, or null when the name is usable. */
 export function validateProjectName(name) {
   if (!PROJECT_NAME_PATTERN.test(name)) {

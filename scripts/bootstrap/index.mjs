@@ -24,6 +24,7 @@ import {
   applyReplacements,
   buildRules,
   deriveNames,
+  getComposeDatabaseSettings,
   setEnvValues,
   toKebabCase,
   toSnakeCase,
@@ -178,7 +179,7 @@ async function main() {
   if (writeEnv) {
     const databaseUrl = await ask("DATABASE_URL", {
       flag: flags["database-url"],
-      fallback: `postgresql://postgres:postgres@127.0.0.1:5432/${names.snake}`,
+      fallback: `postgresql://postgres:local-dev-change-me@127.0.0.1:5439/${names.snake}`,
     });
     const adminUsername = await ask("Admin username", {
       flag: flags["admin-username"],
@@ -196,6 +197,7 @@ async function main() {
     );
     env = {
       DATABASE_URL: databaseUrl,
+      ...getComposeDatabaseSettings(databaseUrl, names.snake),
       JWT_SECRET: generateSecret(48),
       JWT_ISSUER: `${names.name}-auth`,
       ADMIN_USERNAME: adminUsername,
@@ -288,6 +290,7 @@ async function main() {
   console.log(`
 Next steps:
   pnpm install${formatted ? "" : "\n  pnpm format"}
+  docker compose up -d db
   pnpm migrate:deploy
   pnpm seed
   pnpm dev

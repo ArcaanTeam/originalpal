@@ -7,6 +7,7 @@ import {
   applyReplacements,
   buildRules,
   deriveNames,
+  getComposeDatabaseSettings,
   detectCurrentProjectNames,
   setEnvValues,
   toKebabCase,
@@ -86,6 +87,36 @@ describe("setEnvValues", () => {
 
   it("keeps $ in values literal", () => {
     expect(setEnvValues('A="1"\n', { A: "p$1&" })).toBe('A="p$1&"\n');
+  });
+});
+
+describe("Docker Compose database settings", () => {
+  it("derives the container DSN and database credentials from the host DSN", () => {
+    expect(
+      getComposeDatabaseSettings(
+        "postgresql://db_user:p%40ss%24word@127.0.0.1:5439/shop_db",
+        "fallback_db",
+      ),
+    ).toEqual({
+      POSTGRES_DB: "shop_db",
+      POSTGRES_USER: "db_user",
+      POSTGRES_PASSWORD: "p@ss$$word",
+      POSTGRES_PORT: "5439",
+      DATABASE_URL_DOCKER: "postgresql://db_user:p%40ss%24word@db:5432/shop_db",
+    });
+  });
+
+  it("uses local Compose defaults when the DSN has no credentials or port", () => {
+    expect(
+      getComposeDatabaseSettings("postgresql:///my_shop", "fallback"),
+    ).toEqual({
+      POSTGRES_DB: "my_shop",
+      POSTGRES_USER: "postgres",
+      POSTGRES_PASSWORD: "local-dev-change-me",
+      POSTGRES_PORT: "5439",
+      DATABASE_URL_DOCKER:
+        "postgresql://postgres:local-dev-change-me@db:5432/my_shop",
+    });
   });
 });
 

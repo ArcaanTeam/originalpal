@@ -57,7 +57,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Migrations, migrate/seed scripts and their runtime deps.
 COPY --from=builder /app/drizzle ./drizzle
-COPY --from=builder /app/scripts/migrate.mjs /app/scripts/seed.mjs ./scripts/
+COPY --from=builder \
+  /app/scripts/migrate.mjs \
+  /app/scripts/seed.mjs \
+  /app/scripts/create-database.mjs \
+  /app/scripts/db-diagnostics.mjs \
+  ./scripts/
 COPY --from=script-deps /out/node_modules ./scripts/node_modules
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
