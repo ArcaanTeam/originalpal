@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import pg from "pg";
+import { formatDatabaseError } from "./db-diagnostics.mjs";
 
 function loadEnv() {
   try {
@@ -47,23 +48,6 @@ export function getDatabaseConnectionInfo(databaseUrl) {
   };
 }
 
-function formatConnectionFailure(error, { databaseName, endpoint }) {
-  const originalMessage =
-    error instanceof Error ? error.message : String(error);
-  const code =
-    error && typeof error === "object" && "code" in error
-      ? ` (${String(error.code)})`
-      : "";
-
-  return [
-    `Could not connect to PostgreSQL at ${endpoint} to create database "${databaseName}".`,
-    `PostgreSQL reported${code}: ${originalMessage}`,
-    "Check that DATABASE_URL has the correct host, port, username, and password; that PostgreSQL is running and accepting connections; and that its SSL requirements match the URL options.",
-    "If PostgreSQL runs in Docker, use a host reachable from this shell (for example, the published host port rather than the container-only service name).",
-    "Credentials are omitted from this diagnostic.",
-  ].join("\n");
-}
-
 export async function createDatabase({
   databaseUrl,
   Client = pg.Client,
@@ -77,9 +61,13 @@ export async function createDatabase({
     try {
       await client.connect();
     } catch (error) {
-      throw new Error(formatConnectionFailure(error, connectionInfo), {
-        cause: error,
-      });
+      throw new Error(
+        formatDatabaseError(error, {
+          databaseUrl,
+          operation: `connect to PostgreSQL to create database "${databaseName}"`,
+        }),
+        { cause: error },
+      );
     }
 
     const existing = await client.query(

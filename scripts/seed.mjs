@@ -6,6 +6,7 @@
 import { randomUUID } from "node:crypto";
 import bcrypt from "bcryptjs";
 import pg from "pg";
+import { formatDatabaseError } from "./db-diagnostics.mjs";
 
 try {
   process.loadEnvFile();
@@ -30,8 +31,8 @@ const rounds = Number(process.env.BCRYPT_ROUNDS ?? 12);
 const passwordHash = await bcrypt.hash(password, rounds);
 
 const client = new pg.Client({ connectionString: databaseUrl });
-await client.connect();
 try {
+  await client.connect();
   await client.query(
     `INSERT INTO "originalpal"."users" (id, username, password_hash, role)
      VALUES ($1, $2, $3, 'Admin')
@@ -40,6 +41,14 @@ try {
     [randomUUID(), username, passwordHash],
   );
   console.log(`Seeded admin user "${username}".`);
+} catch (error) {
+  console.error(
+    formatDatabaseError(error, {
+      databaseUrl,
+      operation: "seed the admin user",
+    }),
+  );
+  process.exitCode = 1;
 } finally {
   await client.end();
 }

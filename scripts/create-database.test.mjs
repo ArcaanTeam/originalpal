@@ -91,11 +91,12 @@ describe("db:create", () => {
     }).catch((reason) => reason);
 
     expect(error.message).toContain(
-      "Could not connect to PostgreSQL at db.example:5544",
+      'connect to PostgreSQL to create database "shop"',
     );
+    expect(error.message).toContain("db.example:5544");
     expect(error.message).toContain("ECONNRESET");
-    expect(error.message).toContain("SSL requirements");
-    expect(error.message).toContain("Credentials are omitted");
+    expect(error.message).toContain("SSL URL options");
+    expect(error.message).toContain("credentials are omitted");
     expect(error.message).not.toContain("secret");
   });
 
