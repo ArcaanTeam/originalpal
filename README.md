@@ -8,6 +8,7 @@ Full-stack Next.js 16 starter template: Clean Architecture on the server, Clean 
 pnpm run init       # rename the project interactively (or: npm run init)
 pnpm bootstrap      # full setup: rename project + generate .env + optionally remove bootstrap script
 pnpm install
+pnpm db:create      # create the database named in DATABASE_URL (connects to PostgreSQL's postgres DB)
 pnpm migrate:deploy
 pnpm seed
 pnpm dev
