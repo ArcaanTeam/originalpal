@@ -15,7 +15,12 @@ import {
   getPageRoutePermissions,
 } from "@/lib/presentation/auth/route-permissions";
 
-const PUBLIC_PATHS = ["/login", "/api/auth/login", "/api/auth/refresh"];
+const PUBLIC_PATHS = [
+  "/login",
+  "/store",
+  "/api/auth/login",
+  "/api/auth/refresh",
+];
 
 function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATHS.some(
