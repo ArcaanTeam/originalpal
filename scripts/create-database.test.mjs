@@ -5,12 +5,14 @@ import {
   quoteIdentifier,
 } from "./create-database.mjs";
 
-function createClient({ rows = [], errors = [] } = {}) {
+function createClient({ rows = [], errors = [], connectError } = {}) {
   const queries = [];
   return {
     queries,
     Client: class {
-      async connect() {}
+      async connect() {
+        if (connectError) throw connectError;
+      }
       async end() {}
       async query(text, values) {
         queries.push({ text, values });
@@ -34,6 +36,7 @@ describe("db:create", () => {
       databaseName: "originalpal",
       adminConnectionString:
         "postgresql://user:p%40ss@db.example:5432/postgres?sslmode=require",
+      endpoint: "db.example:5432",
     });
   });
 
@@ -69,6 +72,31 @@ describe("db:create", () => {
 
     expect(result).toEqual({ created: false, databaseName: "shop" });
     expect(mock.queries).toHaveLength(1);
+  });
+
+  it("adds useful connection context without exposing credentials", async () => {
+    const mock = createClient({
+      connectError: Object.assign(
+        new Error("Connection terminated unexpectedly"),
+        {
+          code: "ECONNRESET",
+        },
+      ),
+    });
+
+    const error = await createDatabase({
+      databaseUrl: "postgres://alice:secret@db.example:5544/shop",
+      Client: mock.Client,
+      logger: quietLogger,
+    }).catch((reason) => reason);
+
+    expect(error.message).toContain(
+      "Could not connect to PostgreSQL at db.example:5544",
+    );
+    expect(error.message).toContain("ECONNRESET");
+    expect(error.message).toContain("SSL requirements");
+    expect(error.message).toContain("Credentials are omitted");
+    expect(error.message).not.toContain("secret");
   });
 
   it("rejects a URL without a database name", () => {
