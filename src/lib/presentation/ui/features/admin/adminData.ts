@@ -412,6 +412,244 @@ export function findAttribute(id: string): Attribute | undefined {
   return attributes.find((attribute) => attribute.id === id);
 }
 
+export type CustomerStatus = "active" | "blocked" | "inactive";
+
+export interface Customer {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  registeredAt: string;
+  totalOrders: number;
+  totalSpent: number;
+  lastOrder: string | null;
+  address: string;
+  status: CustomerStatus;
+}
+
+export const customers: Customer[] = [
+  {
+    id: "CU-1001",
+    name: "رضا احمدی",
+    phone: "۰۹۱۲۳۴۵۶۷۸۹",
+    email: "reza@example.com",
+    registeredAt: "۱۴۰۵/۰۱/۱۵",
+    totalOrders: 12,
+    totalSpent: 45000000,
+    lastOrder: "۱۴۰۵/۰۸/۲۹",
+    address: "تهران، خیابان ولیعصر، پلاک ۱۲۳",
+    status: "active",
+  },
+  {
+    id: "CU-1002",
+    name: "سارا محمدی",
+    phone: "۰۹۱۲۳۴۵۶۷۸۰",
+    email: "sara@example.com",
+    registeredAt: "۱۴۰۵/۰۳/۲۰",
+    totalOrders: 7,
+    totalSpent: 31000000,
+    lastOrder: "۱۴۰۵/۰۹/۰۲",
+    address: "تهران، خیابانvale، پلاک ۴۵",
+    status: "active",
+  },
+  {
+    id: "CU-1003",
+    name: "علی رضایی",
+    phone: "۰۹۱۲۳۴۵۶۷۸۱",
+    email: "ali@example.com",
+    registeredAt: "۱۴۰۵/۰۵/۰۵",
+    totalOrders: 3,
+    totalSpent: 18500000,
+    lastOrder: "۱۴۰۵/۰۸/۲۷",
+    address: "اصفهان، خیابان چهارباغ، پلاک ۷",
+    status: "blocked",
+  },
+  {
+    id: "CU-1004",
+    name: "مریم حسینی",
+    phone: "۰۹۱۲۳۴۵۶۷۸۲",
+    email: "maryam@example.com",
+    registeredAt: "۱۴۰۵/۰۶/۱۰",
+    totalOrders: 5,
+    totalSpent: 26000000,
+    lastOrder: null,
+    address: "شیراز، خیابان زند، پلاک ۱۰۱",
+    status: "inactive",
+  },
+];
+
+export interface CustomerOrderSummary {
+  id: string;
+  date: string;
+  total: number;
+  status: OrderStatus;
+}
+
+export const customerOrders: Record<string, CustomerOrderSummary[]> = {
+  "CU-1001": [
+    { id: "OP-1048", date: "۱۴۰۵/۰۸/۲۹", total: 1250000, status: "processing" },
+    { id: "OP-1046", date: "۱۴۰۵/۰۸/۲۷", total: 15600000, status: "completed" },
+    { id: "OP-1001", date: "۱۴۰۵/۰۷/۱۰", total: 8500000, status: "completed" },
+  ],
+  "CU-1002": [
+    { id: "OP-1047", date: "۱۴۰۵/۰۹/۰۲", total: 23890000, status: "shipped" },
+    { id: "OP-1002", date: "۱۴۰۵/۰۸/۱۵", total: 5200000, status: "completed" },
+  ],
+  "CU-1003": [
+    { id: "OP-1003", date: "۱۴۰۵/۰۸/۲۷", total: 18500000, status: "completed" },
+  ],
+  "CU-1004": [],
+};
+
+export type ReviewStatus = "pending" | "approved" | "rejected";
+
+export interface Review {
+  id: string;
+  product: string;
+  customer: string;
+  rating: number;
+  status: ReviewStatus;
+  date: string;
+}
+
+export const reviews: Review[] = [
+  {
+    id: "RV-3001",
+    product: "گوشی سامسونگ Galaxy A55",
+    customer: "رضا احمدی",
+    rating: 5,
+    status: "pending",
+    date: "۱۴۰۵/۰۹/۰۳",
+  },
+  {
+    id: "RV-3002",
+    product: "هدفون بی‌سیم سونی WH-1000XM5",
+    customer: "سارا محمدی",
+    rating: 4,
+    status: "approved",
+    date: "۱۴۰۵/۰۹/۰۲",
+  },
+  {
+    id: "RV-3003",
+    product: "ساعت هوشمند اپل SE",
+    customer: "علی رضایی",
+    rating: 3,
+    status: "rejected",
+    date: "۱۴۰۵/۰۹/۰۱",
+  },
+  {
+    id: "RV-3004",
+    product: "اسپیکر JBL Flip 6",
+    customer: "مریم حسینی",
+    rating: 5,
+    status: "pending",
+    date: "۱۴۰۵/۰۹/۰۴",
+  },
+];
+
+export type TicketStatus = "open" | "in_progress" | "closed";
+
+export type TicketPriority = "low" | "medium" | "high";
+
+export interface Ticket {
+  id: string;
+  customer: string;
+  subject: string;
+  priority: TicketPriority;
+  status: TicketStatus;
+  createdAt: string;
+}
+
+export const tickets: Ticket[] = [
+  {
+    id: "TK-4001",
+    customer: "رضا احمدی",
+    subject: "بعد از ۳ روز هنوز سفارش ارسال نشده است.",
+    priority: "high",
+    status: "open",
+    createdAt: "۱۴۰۵/۰۹/۰۵",
+  },
+  {
+    id: "TK-4002",
+    customer: "سارا محمدی",
+    subject: "درخواست مرجوعی کالا معتبر نیست.",
+    priority: "medium",
+    status: "in_progress",
+    createdAt: "۱۴۰۵/۰۹/۰۴",
+  },
+  {
+    id: "TK-4003",
+    customer: "علی رضایی",
+    subject: "مشکل در ورود به حساب کاربری.",
+    priority: "low",
+    status: "closed",
+    createdAt: "۱۴۰۵/۰۹/۰۳",
+  },
+  {
+    id: "TK-4004",
+    customer: "مریم حسینی",
+    subject: "درخواست فاکتور برای استعلام مالی.",
+    priority: "medium",
+    status: "open",
+    createdAt: "۱۴۰۵/۰۹/۰۴",
+  },
+];
+
+export interface TicketMessage {
+  id: string;
+  sender: "customer" | "support";
+  content: string;
+  createdAt: string;
+}
+
+export const ticketMessages: Record<string, TicketMessage[]> = {
+  "TK-4001": [
+    {
+      id: "MSG-1",
+      sender: "customer",
+      content:
+        "سفارش منOP-1047 را ۳ روز قبل ثبت کردم اما هنوز وضعیت آن 'در حال پردازش' است. لطفاً وضعیت ارسال را به من اطلاع دهید.",
+      createdAt: "۱۴۰۵/۰۹/۰۵ ۱۰:۱۵",
+    },
+    {
+      id: "MSG-2",
+      sender: "support",
+      content:
+        "سلام، سفارش شما بررسی شده و امروز ارسال شده است. کد پیگیری را به شما ارسال می‌کنیم.",
+      createdAt: "۱۴۰۵/۰۹/۰۵ ۱۱:۳۰",
+    },
+  ],
+  "TK-4002": [
+    {
+      id: "MSG-3",
+      sender: "customer",
+      content: "مرجوعی مرا تایید نکردید. لطفاً دلیل را توضیح دهید.",
+      createdAt: "۱۴۰۵/۰۹/۰۴ ۰۹:۰۰",
+    },
+  ],
+  "TK-4003": [],
+  "TK-4004": [
+    {
+      id: "MSG-4",
+      sender: "customer",
+      content: "برای استعلام مالی به فاکتور سفارش OP-1046 نیاز دارم.",
+      createdAt: "۱۴۰۵/۰۹/۰۴ ۱۴:۰۰",
+    },
+  ],
+};
+
+export function findCustomer(id: string): Customer | undefined {
+  return customers.find((customer) => customer.id === id);
+}
+
+export function findReview(id: string): Review | undefined {
+  return reviews.find((review) => review.id === id);
+}
+
+export function findTicket(id: string): Ticket | undefined {
+  return tickets.find((ticket) => ticket.id === id);
+}
+
 export function formatToman(value: number): string {
   return value.toLocaleString("fa-IR");
 }

@@ -3,9 +3,12 @@ import {
   findAttribute,
   findBrand,
   findCategory,
+  findCustomer,
   findOrder,
   findProduct,
+  findReview,
   findReturn,
+  findTicket,
   formatToman,
   attributes,
   inventory,
@@ -134,6 +137,43 @@ describe("adminData", () => {
       expect(types.has("text")).toBe(false);
       expect(types.has("number")).toBe(true);
       expect(types.has("select")).toBe(true);
+    });
+  });
+
+  describe("findCustomer", () => {
+    it("finds an existing customer by id", () => {
+      const customer = findCustomer("CU-1001");
+      expect(customer?.id).toBe("CU-1001");
+      expect(customer?.name).toBe("رضا احمدی");
+      expect(customer?.status).toBe("active");
+    });
+
+    it("returns undefined for unknown id", () => {
+      expect(findCustomer("NOPE")).toBeUndefined();
+    });
+  });
+
+  describe("findReview", () => {
+    it("finds an existing review by id", () => {
+      const review = findReview("RV-3001");
+      expect(review?.id).toBe("RV-3001");
+      expect(review?.customer).toBe("رضا احمدی");
+    });
+
+    it("returns undefined for unknown id", () => {
+      expect(findReview("NOPE")).toBeUndefined();
+    });
+  });
+
+  describe("findTicket", () => {
+    it("finds an existing ticket by id", () => {
+      const ticket = findTicket("TK-4001");
+      expect(ticket?.id).toBe("TK-4001");
+      expect(ticket?.subject).toContain("سفارش");
+    });
+
+    it("returns undefined for unknown id", () => {
+      expect(findTicket("NOPE")).toBeUndefined();
     });
   });
 });

@@ -8,7 +8,9 @@ import {
   Package,
   RotateCcw,
   ShoppingBag,
+  Ticket as TicketIcon,
   Truck,
+  User,
 } from "lucide-react";
 import { formatToman } from "./adminData";
 import type { Order } from "./adminData";
@@ -20,6 +22,10 @@ import type { Category } from "./adminData";
 import type { Brand } from "./adminData";
 import type { Attribute } from "./adminData";
 import type { InventoryItem } from "./adminData";
+import type { Customer } from "./adminData";
+import type { Review } from "./adminData";
+import type { Ticket } from "./adminData";
+import type { TicketMessage } from "./adminData";
 
 const ADMIN_MUTED = "#58655f";
 
@@ -35,6 +41,13 @@ export const adminLinks = [
   { label: "برندها", href: "/admin/brands", icon: ShoppingBag },
   { label: "ویژگی‌ها", href: "/admin/attributes", icon: Clock },
   { label: "موجودی انبار", href: "/admin/inventory", icon: Truck },
+  { label: "مشتریان", href: "/admin/customers", icon: User },
+  { label: "نظرات و پرسش‌ها", href: "/admin/reviews", icon: Clock },
+  {
+    label: "درخواست‌های پشتیبانی",
+    href: "/admin/support/tickets",
+    icon: TicketIcon,
+  },
 ];
 
 export interface AdminLayoutProps {
@@ -613,6 +626,214 @@ export function InventoryStatCard({
       {delta && (
         <p className="mt-1 text-[10px] font-semibold text-[#087e68]">{delta}</p>
       )}
+    </div>
+  );
+}
+
+export function CustomerRow({ customer }: { customer: Customer }) {
+  const statusConfig: Record<
+    string,
+    { color: string; bg: string; label: string }
+  > = {
+    active: { color: "#087e68", bg: "#eaf4ef", label: "فعال" },
+    blocked: { color: "#b00020", bg: "#fdecea", label: "مسدود" },
+    inactive: { color: "#59655f", bg: "#f5f7f5", label: "غیرفعال" },
+  };
+  const config = statusConfig[customer.status] ?? {
+    color: ADMIN_MUTED,
+    bg: "#f5f7f5",
+    label: customer.status,
+  };
+  return (
+    <tr key={customer.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{customer.id}</td>
+      <td className="px-4 py-3">{customer.name}</td>
+      <td className="px-4 py-3">{customer.phone}</td>
+      <td className="px-4 py-3">{customer.totalOrders}</td>
+      <td className="px-4 py-3">{formatToman(customer.totalSpent)} تومان</td>
+      <td className="px-4 py-3">
+        <span
+          className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold text-[${config.color}] bg-[${config.bg}]`}
+        >
+          {config.label}
+        </span>
+      </td>
+    </tr>
+  );
+}
+
+export function ReviewRow({ review }: { review: Review }) {
+  const statusConfig: Record<
+    string,
+    { color: string; bg: string; label: string }
+  > = {
+    pending: { color: "#59655f", bg: "#f5f7f5", label: "در انتظار بررسی" },
+    approved: { color: "#087e68", bg: "#eaf4ef", label: "تأیید شده" },
+    rejected: { color: "#b00020", bg: "#fdecea", label: "رد شده" },
+  };
+  const config = statusConfig[review.status] ?? {
+    color: ADMIN_MUTED,
+    bg: "#f5f7f5",
+    label: review.status,
+  };
+  return (
+    <tr key={review.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{review.id}</td>
+      <td className="px-4 py-3">{review.product}</td>
+      <td className="px-4 py-3">{review.customer}</td>
+      <td className="px-4 py-3">{review.rating} اساره</td>
+      <td className="px-4 py-3">
+        <span
+          className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold text-[${config.color}] bg-[${config.bg}]`}
+        >
+          {config.label}
+        </span>
+      </td>
+      <td className="px-4 py-3">{review.date}</td>
+    </tr>
+  );
+}
+
+export function TicketRow({ ticket }: { ticket: Ticket }) {
+  const priorityConfig: Record<
+    string,
+    { color: string; bg: string; label: string }
+  > = {
+    low: { color: "#59655f", bg: "#f5f7f5", label: "کم" },
+    medium: { color: "#087e68", bg: "#eaf4ef", label: "متوسط" },
+    high: { color: "#b00020", bg: "#fdecea", label: "زیاد" },
+  };
+  const statusConfig: Record<
+    string,
+    { color: string; bg: string; label: string }
+  > = {
+    open: { color: "#b00020", bg: "#fdecea", label: "باز" },
+    in_progress: { color: "#59655f", bg: "#f5f7f5", label: "در حال بررسی" },
+    closed: { color: "#087e68", bg: "#eaf4ef", label: "بسته شده" },
+  };
+  const pConfig = priorityConfig[ticket.priority] ?? {
+    color: ADMIN_MUTED,
+    bg: "#f5f7f5",
+    label: ticket.priority,
+  };
+  const sConfig = statusConfig[ticket.status] ?? {
+    color: ADMIN_MUTED,
+    bg: "#f5f7f5",
+    label: ticket.status,
+  };
+  return (
+    <tr key={ticket.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{ticket.id}</td>
+      <td className="px-4 py-3">{ticket.customer}</td>
+      <td className="px-4 py-3">{ticket.subject}</td>
+      <td className="px-4 py-3">
+        <span
+          className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold text-[${pConfig.color}] bg-[${pConfig.bg}]`}
+        >
+          {pConfig.label}
+        </span>
+      </td>
+      <td className="px-4 py-3">
+        <span
+          className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold text-[${sConfig.color}] bg-[${sConfig.bg}]`}
+        >
+          {sConfig.label}
+        </span>
+      </td>
+      <td className="px-4 py-3">{ticket.createdAt}</td>
+    </tr>
+  );
+}
+
+export function TicketMessageRow({ message }: { message: TicketMessage }) {
+  return (
+    <div
+      className={`mb-4 rounded-lg border border-[#e9ece8] p-4 ${
+        message.sender === "customer"
+          ? "bg-[#eaf4ef] text-right"
+          : "bg-[#f5f7f5] text-left"
+      }`}
+    >
+      <p className="mb-1 text-[10px] font-semibold text-[#818b85]">
+        {message.sender === "customer" ? "مشتری" : "پشتیبانی"}
+      </p>
+      <p className="text-sm whitespace-pre-line text-[#263630]">
+        {message.content}
+      </p>
+      <p className="mt-1 text-[9px] text-[#89938c]">{message.createdAt}</p>
+    </div>
+  );
+}
+
+export function CustomerDetailCard({ customer }: { customer: Customer }) {
+  return (
+    <div className="rounded-xl border border-[#e9ece8] bg-white p-4">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div>
+          <p className="text-[10px] text-[#818b85]">شناسه مشتری</p>
+          <p className="text-sm font-bold text-[#173a30]">{customer.id}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">نام و نام خانوادگی</p>
+          <p className="text-sm font-bold text-[#173a30]">{customer.name}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">شماره همراه</p>
+          <p className="text-sm font-bold text-[#173a30]">{customer.phone}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">پست الکترونیک</p>
+          <p className="text-sm font-bold text-[#173a30]">{customer.email}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">تاریخ ثبت‌نام</p>
+          <p className="text-sm font-bold text-[#173a30]">
+            {customer.registeredAt}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">تعداد سفارشات</p>
+          <p className="text-sm font-black text-[#263630]">
+            {customer.totalOrders}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">مجموع خرید</p>
+          <p className="text-sm font-black text-[#263630]">
+            {formatToman(customer.totalSpent)} تومان
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">آخرین سفارش</p>
+          <p className="text-sm font-bold text-[#173a30]">
+            {customer.lastOrder ?? "—"}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">آدرس پیش‌فرض</p>
+          <p className="text-sm text-[#263630]">{customer.address}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">وضعیت</p>
+          <p className="mt-1">
+            <span
+              className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold ${
+                customer.status === "active"
+                  ? "bg-[#eaf4ef] text-[#087e68]"
+                  : customer.status === "blocked"
+                    ? "bg-[#fdecea] text-[#b00020]"
+                    : "bg-[#f5f7f5] text-[#59655f]"
+              }`}
+            >
+              {customer.status === "active"
+                ? "فعال"
+                : customer.status === "blocked"
+                  ? "مسدود"
+                  : "غیرفعال"}
+            </span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

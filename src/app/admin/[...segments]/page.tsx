@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import AttributesListPage from "@/lib/presentation/ui/features/admin/AttributesListPage";
 import BrandsListPage from "@/lib/presentation/ui/features/admin/BrandsListPage";
 import CategoriesListPage from "@/lib/presentation/ui/features/admin/CategoriesListPage";
+import CustomerDetailPage from "@/lib/presentation/ui/features/admin/CustomerDetailPage";
+import CustomersListPage from "@/lib/presentation/ui/features/admin/CustomersListPage";
 import DashboardPage from "@/lib/presentation/ui/features/admin/DashboardPage";
 import InventoryPage from "@/lib/presentation/ui/features/admin/InventoryPage";
 import OrderDetailPage from "@/lib/presentation/ui/features/admin/OrderDetailPage";
@@ -13,12 +15,18 @@ import ProductsListPage from "@/lib/presentation/ui/features/admin/ProductsListP
 import ReportsPage from "@/lib/presentation/ui/features/admin/ReportsPage";
 import ReturnDetailPage from "@/lib/presentation/ui/features/admin/ReturnDetailPage";
 import ReturnsListPage from "@/lib/presentation/ui/features/admin/ReturnsListPage";
+import ReviewsListPage from "@/lib/presentation/ui/features/admin/ReviewsListPage";
 import ShippingPage from "@/lib/presentation/ui/features/admin/ShippingPage";
+import TicketDetailPage from "@/lib/presentation/ui/features/admin/TicketDetailPage";
+import TicketsListPage from "@/lib/presentation/ui/features/admin/TicketsListPage";
 import TransactionsPage from "@/lib/presentation/ui/features/admin/TransactionsPage";
 import {
+  findCustomer,
   findOrder,
-  findReturn,
   findProduct,
+  findReturn,
+  findReview,
+  findTicket,
 } from "@/lib/presentation/ui/features/admin/adminData";
 import CommerceScreenLoading from "@/lib/presentation/ui/features/commerce/CommerceScreenLoading";
 import CommerceScreenPage from "@/lib/presentation/ui/features/commerce/CommerceScreenPage";
@@ -37,6 +45,9 @@ const CATEGORIES_TITLE = "دسته‌بندی‌ها";
 const BRANDS_TITLE = "برندها";
 const ATTRIBUTES_TITLE = "ویژگی‌ها";
 const INVENTORY_TITLE = "موجودی انبار";
+const CUSTOMERS_TITLE = "مشتریان";
+const REVIEWS_TITLE = "نظرات و پرسش‌ها";
+const TICKETS_TITLE = "درخواست‌های پشتیبانی";
 
 export async function generateMetadata({
   params,
@@ -127,6 +138,53 @@ export async function generateMetadata({
       title: INVENTORY_TITLE,
       description: "مدیریت موجودی کالا و هشدار کمی موجودی.",
     };
+  if (route === "customers")
+    return {
+      title: CUSTOMERS_TITLE,
+      description: "مدیریت حساب‌های کاربری مشتریان و بررسی چت‌لوگ‌ها.",
+    };
+  if (segments[0] === "customers" && segments.length === 2) {
+    const customer = findCustomer(segments[1]);
+    if (!customer) return { title: "صفحه پیدا نشد" };
+    return {
+      title: `پروفایل مشتری ${customer.name}`,
+      description: "مشاهده جزئیات حساب مشتری، تاریخچه سفارشات و اطلاعات.",
+    };
+  }
+  if (route === "reviews")
+    return {
+      title: REVIEWS_TITLE,
+      description: "بررسی و تایید نظرات و پرسش‌های مشتریان در مورد محصولات.",
+    };
+  if (segments[0] === "reviews" && segments.length === 2) {
+    const review = findReview(segments[1]);
+    if (!review) return { title: "صفحه پیدا نشد" };
+    return {
+      title: `جزئیات نظر ${review.id}`,
+      description: "مشاهده جزئیات کامل نظر یا پرسش مشتری.",
+    };
+  }
+  if (
+    segments[0] === "support" &&
+    segments[1] === "tickets" &&
+    segments.length === 2
+  )
+    return {
+      title: TICKETS_TITLE,
+      description: "مدیریت تیکت‌های پشتیبانی مشتریان و پیگیری وضعیت پاسخ‌دهی.",
+    };
+  if (
+    segments[0] === "support" &&
+    segments[1] === "tickets" &&
+    segments.length === 3
+  ) {
+    const ticket = findTicket(segments[2]);
+    if (!ticket) return { title: "صفحه پیدا نشد" };
+    return {
+      title: `جزئیات تیکت ${ticket.id}`,
+      description: "مشاهده محتوای تیکت پشتیبانی و تاریخچه ارتباطات با مشتری.",
+    };
+  }
 
   const screen = findCommerceScreen("admin", segments);
   if (!screen) return { title: "صفحه پیدا نشد" };
@@ -167,6 +225,34 @@ async function AdminRouteContent({ params }: RouteProps) {
   if (route === "brands") return <BrandsListPage />;
   if (route === "attributes") return <AttributesListPage />;
   if (route === "inventory") return <InventoryPage />;
+  if (route === "customers") return <CustomersListPage />;
+  if (segments[0] === "customers" && segments.length === 2) {
+    const customer = findCustomer(segments[1]);
+    if (!customer) notFound();
+    return <CustomerDetailPage customer={customer} />;
+  }
+  if (route === "reviews") return <ReviewsListPage />;
+  if (segments[0] === "reviews" && segments.length === 2) {
+    const review = findReview(segments[1]);
+    if (!review) notFound();
+    // Review detail page reuses CustomerDetailPage layout pattern; for now fall through
+    return <ReviewsListPage />;
+  }
+  if (
+    segments[0] === "support" &&
+    segments[1] === "tickets" &&
+    segments.length === 2
+  )
+    return <TicketsListPage />;
+  if (
+    segments[0] === "support" &&
+    segments[1] === "tickets" &&
+    segments.length === 3
+  ) {
+    const ticket = findTicket(segments[2]);
+    if (!ticket) notFound();
+    return <TicketDetailPage ticket={ticket} />;
+  }
 
   if (!findCommerceScreen("admin", segments)) notFound();
   return <CommerceScreenPage area="admin" segments={segments} />;
