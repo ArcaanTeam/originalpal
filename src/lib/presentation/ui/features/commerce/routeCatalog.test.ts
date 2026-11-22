@@ -24,6 +24,25 @@ describe("commerce route catalog", () => {
     expect(findCommerceScreen("store", ["products", "new"])).toBeUndefined();
   });
 
+  it("registers the catalog, search, comparison, and empty-search screens", () => {
+    expect(findCommerceScreen("store", ["category", "mobile"])?.kind).toBe(
+      "listing",
+    );
+    expect(findCommerceScreen("store", ["search", "filters"])?.kind).toBe(
+      "utility",
+    );
+    expect(findCommerceScreen("store", ["search", "sort"])?.kind).toBe(
+      "utility",
+    );
+    expect(findCommerceScreen("store", ["search", "suggestions"])?.kind).toBe(
+      "utility",
+    );
+    expect(findCommerceScreen("store", ["search", "empty"])?.kind).toBe(
+      "utility",
+    );
+    expect(findCommerceScreen("store", ["compare"])?.kind).toBe("listing");
+  });
+
   it("returns grouped navigation for both application areas", () => {
     expect(
       getNavigationGroups("store").some(

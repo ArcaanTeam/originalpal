@@ -45,7 +45,7 @@ const categories = [
   },
 ];
 
-type StoreProduct = {
+export type StoreProduct = {
   name: string;
   price: string;
   old?: string;
@@ -54,7 +54,7 @@ type StoreProduct = {
   color: string;
 };
 
-const products: StoreProduct[] = [
+export const storefrontProducts: StoreProduct[] = [
   {
     name: "گوشی سامسونگ Galaxy S26 Ultra",
     price: "۸۹٬۹۰۰٬۰۰۰",
@@ -107,22 +107,22 @@ const products: StoreProduct[] = [
 
 const recommendations = [
   {
-    ...products[0],
+    ...storefrontProducts[0],
     name: "گوشی اپل iPhone 17 Pro Max",
     price: "۹۴٬۲۰۰٬۰۰۰",
     old: undefined,
     off: undefined,
   },
-  products[1],
+  storefrontProducts[1],
   {
-    ...products[2],
+    ...storefrontProducts[2],
     name: "ساعت هوشمند سامسونگ Watch 9",
     price: "۱۴٬۲۰۰٬۰۰۰",
     old: undefined,
     off: undefined,
     Icon: Watch,
   },
-  products[3],
+  storefrontProducts[3],
 ];
 
 const articles = [
@@ -324,7 +324,11 @@ function CategoryTile({ item }: { item: (typeof categories)[number] }) {
   );
 }
 
-function ProductCard({ product }: { product: (typeof products)[number] }) {
+export function ProductCard({
+  product,
+}: {
+  product: (typeof storefrontProducts)[number];
+}) {
   const Icon = product.Icon;
   return (
     <article className="group min-w-[178px] overflow-hidden rounded-xl border border-border bg-white transition hover:-translate-y-0.5 hover:shadow-md sm:min-w-0">
@@ -397,7 +401,7 @@ function SectionHeading({
   );
 }
 
-function ProductRail({ items }: { items: typeof products }) {
+function ProductRail({ items }: { items: typeof storefrontProducts }) {
   return (
     <div className="grid auto-cols-[178px] grid-flow-col gap-3 overflow-x-auto pb-3 sm:auto-cols-auto sm:grid-flow-row sm:grid-cols-3 lg:grid-cols-6">
       {items.map((product) => (
@@ -614,7 +618,7 @@ export default function StorefrontHomeUI() {
         <section className="rounded-xl border border-border bg-white p-4 sm:p-5">
           <SectionHeading title="پیشنهاد شگفت‌انگیز" href="/deals" />
           <div className="-mx-1 grid auto-cols-[178px] grid-flow-col gap-3 overflow-x-auto px-1 pb-2 sm:auto-cols-auto sm:grid-flow-row sm:grid-cols-3 lg:grid-cols-6">
-            {products.map((product) => (
+            {storefrontProducts.map((product) => (
               <ProductCard key={product.name} product={product} />
             ))}
           </div>

@@ -272,8 +272,8 @@ export function buildRenameRules(current, next) {
       file: "drizzle/0000_baseline.sql",
       replacements: [
         [
-          `CREATE SCHEMA ${currentSchemaQuoted};`,
-          `CREATE SCHEMA ${schemaQuoted};`,
+          `CREATE SCHEMA IF NOT EXISTS ${currentSchemaQuoted};`,
+          `CREATE SCHEMA IF NOT EXISTS ${schemaQuoted};`,
         ],
         [`${currentSchemaQuoted}.`, `${schemaQuoted}.`],
       ],
