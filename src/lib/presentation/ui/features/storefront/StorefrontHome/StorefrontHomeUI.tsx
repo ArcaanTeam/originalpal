@@ -185,7 +185,7 @@ export function StoreHeader() {
               سلام، وارد شوید
             </Link>
             <Link
-              href="/account/orders"
+              href="/account/profile"
               className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-white/10"
             >
               حساب من
