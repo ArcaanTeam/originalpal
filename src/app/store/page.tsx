@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import {
   ArrowLeft,
   ArrowUpLeft,
@@ -13,6 +14,7 @@ import {
   Sparkles,
   Truck,
 } from "lucide-react";
+import CommerceScreenLoading from "@/lib/presentation/ui/features/commerce/CommerceScreenLoading";
 
 const categories = [
   { icon: "📱", title: "موبایل و دیجیتال", tone: "bg-[#eaf3ff]" },
@@ -208,7 +210,7 @@ function ProductCard({ product }: { product: (typeof products)[number] }) {
   );
 }
 
-export default async function StorePage({
+async function StorePageContent({
   searchParams,
 }: {
   searchParams: Promise<{ q?: string }>;
@@ -397,5 +399,15 @@ export default async function StorePage({
         </div>
       </footer>
     </main>
+  );
+}
+
+export default function StorePage(props: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  return (
+    <Suspense fallback={<CommerceScreenLoading area="store" />}>
+      <StorePageContent searchParams={props.searchParams} />
+    </Suspense>
   );
 }

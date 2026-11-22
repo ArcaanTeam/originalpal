@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import CommerceScreenLoading from "@/lib/presentation/ui/features/commerce/CommerceScreenLoading";
 import CommerceScreenPage from "@/lib/presentation/ui/features/commerce/CommerceScreenPage";
 import { findCommerceScreen } from "@/lib/presentation/ui/features/commerce/routeCatalog";
 
@@ -16,8 +18,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function AdminRoute({ params }: RouteProps) {
+async function AdminRouteContent({ params }: RouteProps) {
   const { segments } = await params;
   if (!findCommerceScreen("admin", segments)) notFound();
   return <CommerceScreenPage area="admin" segments={segments} />;
+}
+
+export default function AdminRoute(props: RouteProps) {
+  return (
+    <Suspense fallback={<CommerceScreenLoading area="admin" />}>
+      <AdminRouteContent params={props.params} />
+    </Suspense>
+  );
 }
