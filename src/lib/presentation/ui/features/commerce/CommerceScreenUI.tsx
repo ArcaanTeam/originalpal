@@ -15,6 +15,7 @@ export interface CommerceScreenUIProps {
   pathname: string;
   navGroups: { section: string; items: CommerceScreen[] }[];
   query?: string;
+  showStoreNavigation?: boolean;
 }
 
 const sampleRows = [
@@ -333,11 +334,14 @@ export default function CommerceScreenUI({
   pathname,
   navGroups,
   query,
+  showStoreNavigation = true,
 }: CommerceScreenUIProps) {
   const isAdmin = screen.area === "admin";
   return (
     <div dir="rtl" className="min-h-screen bg-[#f7f8f6] text-[#263630]">
-      {!isAdmin && <StoreNavigation screen={screen} navGroups={navGroups} />}
+      {!isAdmin && showStoreNavigation && (
+        <StoreNavigation screen={screen} navGroups={navGroups} />
+      )}
       <div
         className={`mx-auto flex ${isAdmin ? "max-w-[1500px]" : "max-w-7xl"}`}
       >

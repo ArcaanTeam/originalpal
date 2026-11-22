@@ -9,12 +9,14 @@ export interface CommerceScreenPageProps {
   area: CommerceArea;
   segments?: string[];
   query?: string;
+  showStoreNavigation?: boolean;
 }
 
 export default function CommerceScreenPage({
   area,
   segments = [],
   query,
+  showStoreNavigation,
 }: CommerceScreenPageProps) {
   const screen = findCommerceScreen(area, segments);
   if (!screen) return null;
@@ -25,6 +27,7 @@ export default function CommerceScreenPage({
       pathname={pathname}
       navGroups={getNavigationGroups(area)}
       query={query}
+      showStoreNavigation={showStoreNavigation}
     />
   );
 }
