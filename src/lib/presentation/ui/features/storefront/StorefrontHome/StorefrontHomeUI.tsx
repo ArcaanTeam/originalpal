@@ -17,6 +17,7 @@ import {
   Truck,
   Watch,
 } from "lucide-react";
+import CartCount from "../StorefrontCart/CartCount";
 
 const categories = [
   {
@@ -193,10 +194,7 @@ export function StoreHeader() {
               href="/cart"
               className="flex items-center gap-2 rounded-md bg-white px-4 py-2.5 text-sm font-bold text-primary"
             >
-              <ShoppingBag size={17} /> سبد خرید{" "}
-              <span className="grid size-5 place-items-center rounded-full bg-accent text-xs text-accent-foreground">
-                ۲
-              </span>
+              <ShoppingBag size={17} /> سبد خرید <CartCount />
             </Link>
           </div>
           <div className="ms-auto flex items-center gap-3 sm:hidden">
@@ -206,8 +204,8 @@ export function StoreHeader() {
               className="relative grid size-10 place-items-center rounded-lg bg-white/10"
             >
               <ShoppingBag size={20} />
-              <span className="absolute -end-1 -top-1 grid size-5 place-items-center rounded-full bg-accent text-[10px] font-bold text-accent-foreground">
-                ۲
+              <span className="absolute -end-1 -top-1">
+                <CartCount />
               </span>
             </Link>
             <button

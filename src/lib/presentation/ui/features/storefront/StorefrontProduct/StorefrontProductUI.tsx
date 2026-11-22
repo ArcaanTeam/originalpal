@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useSetAtom } from "jotai";
 import {
   BadgeCheck,
   Check,
@@ -15,6 +16,7 @@ import {
   Star,
   Truck,
 } from "lucide-react";
+import { cartAtom } from "../StorefrontCart/cartAtom";
 import {
   ProductCard,
   storefrontProducts,
@@ -304,7 +306,37 @@ function Reviews() {
 }
 
 export default function StorefrontProductUI() {
+  const setCart = useSetAtom(cartAtom);
   const [added, setAdded] = useState(false);
+
+  function addToCart() {
+    setCart((current) => {
+      const existing = current.find((item) => item.id === "samsung-s26-ultra");
+      if (existing) {
+        return current.map((item) =>
+          item.id === existing.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        );
+      }
+      return [
+        ...current,
+        {
+          id: "samsung-s26-ultra",
+          slug: "samsung-s26-ultra",
+          title: product.name,
+          price: 89_900_000,
+          oldPrice: 98_500_000,
+          quantity: 1,
+          color: "تیتانیوم مشکی",
+          variant: "۵۱۲ گیگابایت",
+          illustration: "phone",
+          discount: "۹٪",
+        },
+      ];
+    });
+    setAdded(true);
+  }
   return (
     <main className="mx-auto max-w-[1200px] px-4 pt-5 pb-24 sm:px-8 sm:pt-8 sm:pb-10">
       <nav
@@ -323,7 +355,7 @@ export default function StorefrontProductUI() {
         <section className="order-2 lg:order-1">
           <ProductGallery />
           <div className="mt-5 hidden lg:block">
-            <PurchasePanel onAdd={() => setAdded(true)} added={added} />
+            <PurchasePanel onAdd={addToCart} added={added} />
           </div>
         </section>
         <section className="order-1 lg:order-2">
@@ -349,7 +381,7 @@ export default function StorefrontProductUI() {
         </section>
       </div>
       <div className="mt-5 lg:hidden">
-        <PurchasePanel onAdd={() => setAdded(true)} added={added} />
+        <PurchasePanel onAdd={addToCart} added={added} />
       </div>
       <section className="mt-5 rounded-xl border border-border bg-white p-5">
         <h2 className="font-extrabold">ویژگی‌های کلیدی</h2>
@@ -412,7 +444,7 @@ export default function StorefrontProductUI() {
           {product.price} <small className="font-normal">تومان</small>
         </span>
         <button
-          onClick={() => setAdded(true)}
+          onClick={addToCart}
           className="flex h-11 shrink-0 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-bold text-white"
         >
           <ShoppingBag size={17} />

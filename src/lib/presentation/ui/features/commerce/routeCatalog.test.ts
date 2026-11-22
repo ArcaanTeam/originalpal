@@ -47,6 +47,22 @@ describe("commerce route catalog", () => {
     expect(findCommerceScreen("store", ["reviews", "write"])?.kind).toBe(
       "form",
     );
+    expect(findCommerceScreen("store", ["cart"])?.kind).toBe("listing");
+    expect(findCommerceScreen("store", ["cart", "empty"])?.kind).toBe(
+      "utility",
+    );
+    expect(findCommerceScreen("store", ["checkout", "shipping"])?.kind).toBe(
+      "form",
+    );
+    expect(findCommerceScreen("store", ["checkout", "payment"])?.kind).toBe(
+      "form",
+    );
+    expect(findCommerceScreen("store", ["checkout", "success"])?.kind).toBe(
+      "utility",
+    );
+    expect(findCommerceScreen("store", ["checkout", "failed"])?.kind).toBe(
+      "utility",
+    );
   });
 
   it("returns grouped navigation for both application areas", () => {

@@ -5,6 +5,9 @@ import CommerceScreenLoading from "@/lib/presentation/ui/features/commerce/Comme
 import CommerceScreenPage from "@/lib/presentation/ui/features/commerce/CommerceScreenPage";
 import { findCommerceScreen } from "@/lib/presentation/ui/features/commerce/routeCatalog";
 import StorefrontBrowsePage from "@/lib/presentation/ui/features/storefront/StorefrontBrowse/StorefrontBrowsePage";
+import StorefrontCartPage from "@/lib/presentation/ui/features/storefront/StorefrontCart/StorefrontCartPage";
+import StorefrontCheckoutPage from "@/lib/presentation/ui/features/storefront/StorefrontCheckout/StorefrontCheckoutPage";
+import StorefrontPaymentResultPage from "@/lib/presentation/ui/features/storefront/StorefrontPaymentResult/StorefrontPaymentResultPage";
 import StorefrontProductPage from "@/lib/presentation/ui/features/storefront/StorefrontProduct/StorefrontProductPage";
 import StorefrontReviewPage from "@/lib/presentation/ui/features/storefront/StorefrontReview/StorefrontReviewPage";
 
@@ -25,6 +28,21 @@ export async function generateMetadata({
 async function StorefrontRouteContent({ params, searchParams }: RouteProps) {
   const [{ segments }, { q }] = await Promise.all([params, searchParams]);
   if (!findCommerceScreen("store", segments)) notFound();
+  const route = segments.join("/");
+  if (route === "cart") return <StorefrontCartPage />;
+  if (route === "cart/empty") return <StorefrontCartPage mode="empty" />;
+  if (route === "checkout/shipping") {
+    return <StorefrontCheckoutPage mode="shipping" />;
+  }
+  if (route === "checkout/payment") {
+    return <StorefrontCheckoutPage mode="payment" />;
+  }
+  if (route === "checkout/success") {
+    return <StorefrontPaymentResultPage mode="success" />;
+  }
+  if (route === "checkout/failed") {
+    return <StorefrontPaymentResultPage mode="failed" />;
+  }
   if (segments[0] === "product" && segments.length === 2) {
     return <StorefrontProductPage />;
   }
