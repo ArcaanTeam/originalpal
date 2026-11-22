@@ -650,6 +650,121 @@ export function findTicket(id: string): Ticket | undefined {
   return tickets.find((ticket) => ticket.id === id);
 }
 
+export type CouponStatus = "active" | "expired" | "draft";
+
+export interface Coupon {
+  id: string;
+  code: string;
+  type: "percent" | "fixed";
+  value: number;
+  minOrder: number;
+  maxUsage: number;
+  expiresAt: string;
+  status: CouponStatus;
+  usageCount: number;
+}
+
+export const coupons: Coupon[] = [
+  {
+    id: "CP-1001",
+    code: "WELCOME10",
+    type: "percent",
+    value: 10,
+    minOrder: 500000,
+    maxUsage: 1000,
+    expiresAt: "۱۴۰۶/۰۱/۰۱",
+    status: "active",
+    usageCount: 245,
+  },
+  {
+    id: "CP-1002",
+    code: "SUMMER25",
+    type: "percent",
+    value: 25,
+    minOrder: 1000000,
+    maxUsage: 500,
+    expiresAt: "۱۴۰۵/۱۲/۳۰",
+    status: "active",
+    usageCount: 189,
+  },
+  {
+    id: "CP-1003",
+    code: "FIRST50K",
+    type: "fixed",
+    value: 50000,
+    minOrder: 300000,
+    maxUsage: 1,
+    expiresAt: "۱۴۰۵/۱۰/۱۵",
+    status: "expired",
+    usageCount: 1,
+  },
+  {
+    id: "CP-1004",
+    code: "BLACKFRIDAY40",
+    type: "percent",
+    value: 40,
+    minOrder: 2000000,
+    maxUsage: 200,
+    expiresAt: "۱۴۰۵/۱۱/۲۵",
+    status: "draft",
+    usageCount: 0,
+  },
+];
+
+export type BannerStatus = "active" | "inactive" | "scheduled";
+
+export interface Banner {
+  id: string;
+  title: string;
+  location: "home" | "category" | "product";
+  imageUrl: string;
+  linkUrl: string;
+  startsAt: string;
+  endsAt: string;
+  status: BannerStatus;
+}
+
+export const banners: Banner[] = [
+  {
+    id: "BN-2001",
+    title: "جشنواره زمستانه تا ۴۰٪ تخفیف",
+    location: "home",
+    imageUrl: "/assets/banners/winter-sale.jpg",
+    linkUrl: "/store/deals",
+    startsAt: "۱۴۰۵/۱۲/۰۱",
+    endsAt: "۱۴۰۶/۰۲/۲۸",
+    status: "active",
+  },
+  {
+    id: "BN-2002",
+    title: "لancement محصول جدید سامسونگ",
+    location: "category",
+    imageUrl: "/assets/banners/samsung-launch.jpg",
+    linkUrl: "/store/category/mobile",
+    startsAt: "۱۴۰۵/۱۱/۱۵",
+    endsAt: "۱۴۰۵/۱۲/۱۵",
+    status: "scheduled",
+  },
+  {
+    id: "BN-2003",
+    title: "بسته‌های ویژه صوت و تصویر",
+    location: "product",
+    imageUrl: "/assets/banners/audio-bundle.jpg",
+    linkUrl: "/store/category/audio",
+    startsAt: "۱۴۰۵/۱۰/۰۱",
+    endsAt: "۱۴۰۵/۱۱/۳۰",
+    status: "inactive",
+  },
+];
+
+export function findCoupon(id: string): Coupon | undefined {
+  return coupons.find((coupon) => coupon.id === id);
+}
+
+export function findBanner(id: string): Banner | undefined {
+  return banners.find((banner) => banner.id === id);
+}
+
 export function formatToman(value: number): string {
   return value.toLocaleString("fa-IR");
 }

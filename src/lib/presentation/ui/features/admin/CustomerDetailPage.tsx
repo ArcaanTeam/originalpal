@@ -4,10 +4,7 @@ import { PageHeader } from "./AdminParts";
 import { CustomerDetailCard } from "./AdminParts";
 import { DataTable } from "./AdminParts";
 import { adminCopy } from "./adminCopy";
-import {
-  customerOrders,
-  formatToman,
-} from "./adminData";
+import { customerOrders, formatToman } from "./adminData";
 import type { Customer, CustomerOrderSummary } from "./adminData";
 
 export interface CustomerDetailPageProps {

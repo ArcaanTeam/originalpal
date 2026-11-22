@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
   findAttribute,
+  findBanner,
   findBrand,
   findCategory,
+  findCoupon,
   findCustomer,
   findOrder,
   findProduct,
@@ -174,6 +176,31 @@ describe("adminData", () => {
 
     it("returns undefined for unknown id", () => {
       expect(findTicket("NOPE")).toBeUndefined();
+    });
+  });
+
+  describe("findCoupon", () => {
+    it("finds an existing coupon by id", () => {
+      const coupon = findCoupon("CP-1001");
+      expect(coupon?.id).toBe("CP-1001");
+      expect(coupon?.code).toBe("WELCOME10");
+      expect(coupon?.status).toBe("active");
+    });
+
+    it("returns undefined for unknown id", () => {
+      expect(findCoupon("NOPE")).toBeUndefined();
+    });
+  });
+
+  describe("findBanner", () => {
+    it("finds an existing banner by id", () => {
+      const banner = findBanner("BN-2001");
+      expect(banner?.id).toBe("BN-2001");
+      expect(banner?.title).toContain("زمستانه");
+    });
+
+    it("returns undefined for unknown id", () => {
+      expect(findBanner("NOPE")).toBeUndefined();
     });
   });
 });

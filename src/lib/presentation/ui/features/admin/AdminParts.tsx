@@ -26,6 +26,8 @@ import type { Customer } from "./adminData";
 import type { Review } from "./adminData";
 import type { Ticket } from "./adminData";
 import type { TicketMessage } from "./adminData";
+import type { Coupon } from "./adminData";
+import type { Banner } from "./adminData";
 
 const ADMIN_MUTED = "#58655f";
 
@@ -48,6 +50,8 @@ export const adminLinks = [
     href: "/admin/support/tickets",
     icon: TicketIcon,
   },
+  { label: "کدهای تخفیف", href: "/admin/coupons", icon: TicketIcon },
+  { label: "بنرها", href: "/admin/banners", icon: ShoppingBag },
 ];
 
 export interface AdminLayoutProps {
@@ -834,6 +838,262 @@ export function CustomerDetailCard({ customer }: { customer: Customer }) {
           </p>
         </div>
       </div>
+    </div>
+  );
+}
+
+export interface CouponRowProps {
+  coupon: Coupon;
+}
+
+export function CouponRow({ coupon }: CouponRowProps) {
+  const typeLabels: Record<string, string> = {
+    percent: "درصدی",
+    fixed: "مبلغ ثابت",
+  };
+  const statusConfig: Record<
+    string,
+    { color: string; bg: string; label: string }
+  > = {
+    active: { color: "#087e68", bg: "#eaf4ef", label: "فعال" },
+    expired: { color: "#b00020", bg: "#fdecea", label: "منقضی شده" },
+    draft: { color: "#59655f", bg: "#f5f7f5", label: "پیش‌نویس" },
+  };
+  const config = statusConfig[coupon.status] ?? {
+    color: ADMIN_MUTED,
+    bg: "#f5f7f5",
+    label: coupon.status,
+  };
+  return (
+    <tr key={coupon.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{coupon.id}</td>
+      <td className="px-4 py-3">{coupon.code}</td>
+      <td className="px-4 py-3">{typeLabels[coupon.type] ?? coupon.type}</td>
+      <td className="px-4 py-3">
+        {coupon.value}
+        {coupon.type === "percent" ? "%" : " تومان"}
+      </td>
+      <td className="px-4 py-3">{coupon.expiresAt}</td>
+      <td className="px-4 py-3">
+        <span
+          className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold text-[${config.color}] bg-[${config.bg}]`}
+        >
+          {config.label}
+        </span>
+      </td>
+    </tr>
+  );
+}
+
+export interface BannerRowProps {
+  banner: Banner;
+}
+
+export function BannerRow({ banner }: BannerRowProps) {
+  const locationLabels: Record<string, string> = {
+    home: "صفحه اصلی",
+    category: "صفحه دسته‌بندی",
+    product: "صفحه محصول",
+  };
+  const statusConfig: Record<
+    string,
+    { color: string; bg: string; label: string }
+  > = {
+    active: { color: "#087e68", bg: "#eaf4ef", label: "فعال" },
+    inactive: { color: "#59655f", bg: "#f5f7f5", label: "غیرفعال" },
+    scheduled: { color: "#b00020", bg: "#fdecea", label: "زمان‌بندی شده" },
+  };
+  const config = statusConfig[banner.status] ?? {
+    color: ADMIN_MUTED,
+    bg: "#f5f7f5",
+    label: banner.status,
+  };
+  return (
+    <tr key={banner.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{banner.id}</td>
+      <td className="px-4 py-3">{banner.title}</td>
+      <td className="px-4 py-3">
+        {locationLabels[banner.location] ?? banner.location}
+      </td>
+      <td className="px-4 py-3">{banner.startsAt}</td>
+      <td className="px-4 py-3">{banner.endsAt}</td>
+      <td className="px-4 py-3">
+        <span
+          className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold text-[${config.color}] bg-[${config.bg}]`}
+        >
+          {config.label}
+        </span>
+      </td>
+    </tr>
+  );
+}
+
+export function CouponEditCard({ coupon }: { coupon: Coupon }) {
+  return (
+    <div className="rounded-xl border border-[#e9ece8] bg-white p-4">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div>
+          <p className="text-[10px] text-[#818b85]">شماره کوپن</p>
+          <p className="text-sm font-bold text-[#173a30]">{coupon.id}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">کد تخفیف</p>
+          <p className="text-sm font-bold text-[#173a30]">{coupon.code}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">نوع تخفیف</p>
+          <p className="text-sm font-bold text-[#173a30]">
+            {coupon.type === "percent" ? "درصدی" : "مبلغ ثابت"}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">مقدار تخفیف</p>
+          <p className="text-sm font-black text-[#263630]">
+            {coupon.value}
+            {coupon.type === "percent" ? "%" : " تومان"}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">حداقل مبلغ سفارش</p>
+          <p className="text-sm font-bold text-[#173a30]">
+            {formatToman(coupon.minOrder)} تومان
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">حداکثر استفاده</p>
+          <p className="text-sm font-bold text-[#173a30]">{coupon.maxUsage}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">تاریخ انقضا</p>
+          <p className="text-sm font-bold text-[#173a30]">{coupon.expiresAt}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">وضعیت</p>
+          <p className="mt-1">
+            <span
+              className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold ${
+                coupon.status === "active"
+                  ? "bg-[#eaf4ef] text-[#087e68]"
+                  : coupon.status === "expired"
+                    ? "bg-[#fdecea] text-[#b00020]"
+                    : "bg-[#f5f7f5] text-[#59655f]"
+              }`}
+            >
+              {coupon.status === "active"
+                ? "فعال"
+                : coupon.status === "expired"
+                  ? "منقضی شده"
+                  : "پیش‌نویس"}
+            </span>
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">تعداد استفاده</p>
+          <p className="text-sm font-bold text-[#173a30]">
+            {coupon.usageCount}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function BannerEditCard({ banner }: { banner: Banner }) {
+  const locationLabels: Record<string, string> = {
+    home: "صفحه اصلی",
+    category: "صفحه دسته‌بندی",
+    product: "صفحه محصول",
+  };
+  return (
+    <div className="rounded-xl border border-[#e9ece8] bg-white p-4">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div>
+          <p className="text-[10px] text-[#818b85]">شماره بنر</p>
+          <p className="text-sm font-bold text-[#173a30]">{banner.id}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">عنوان بنر</p>
+          <p className="text-sm font-bold text-[#173a30]">{banner.title}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">محل نمایش</p>
+          <p className="text-sm font-bold text-[#173a30]">
+            {locationLabels[banner.location] ?? banner.location}
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">آدرس تصویر</p>
+          <p className="text-sm font-bold text-[#173a30]">{banner.imageUrl}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">لینک مقصد</p>
+          <p className="text-sm font-bold text-[#173a30]">{banner.linkUrl}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">تاریخ شروع</p>
+          <p className="text-sm font-bold text-[#173a30]">{banner.startsAt}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">تاریخ پایان</p>
+          <p className="text-sm font-bold text-[#173a30]">{banner.endsAt}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">وضعیت</p>
+          <p className="mt-1">
+            <span
+              className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold ${
+                banner.status === "active"
+                  ? "bg-[#eaf4ef] text-[#087e68]"
+                  : banner.status === "inactive"
+                    ? "bg-[#f5f7f5] text-[#59655f]"
+                    : "bg-[#fdecea] text-[#b00020]"
+              }`}
+            >
+              {banner.status === "active"
+                ? "فعال"
+                : banner.status === "inactive"
+                  ? "غیرفعال"
+                  : "زمان‌بندی شده"}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export interface CouponStatCardProps {
+  label: string;
+  value: string;
+  delta?: string;
+}
+
+export function CouponStatCard({ label, value, delta }: CouponStatCardProps) {
+  return (
+    <div className="rounded-xl border border-white/70 bg-white/75 p-3">
+      <p className="text-[9px] text-[#7d8982]">{label}</p>
+      <p className="mt-2 text-sm font-black text-[#263630]">{value}</p>
+      {delta && (
+        <p className="mt-1 text-[10px] font-semibold text-[#087e68]">{delta}</p>
+      )}
+    </div>
+  );
+}
+
+export interface BannerStatCardProps {
+  label: string;
+  value: string;
+  delta?: string;
+}
+
+export function BannerStatCard({ label, value, delta }: BannerStatCardProps) {
+  return (
+    <div className="rounded-xl border border-white/70 bg-white/75 p-3">
+      <p className="text-[9px] text-[#7d8982]">{label}</p>
+      <p className="mt-2 text-sm font-black text-[#263630]">{value}</p>
+      {delta && (
+        <p className="mt-1 text-[10px] font-semibold text-[#087e68]">{delta}</p>
+      )}
     </div>
   );
 }

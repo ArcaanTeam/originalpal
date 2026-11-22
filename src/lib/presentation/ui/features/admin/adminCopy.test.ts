@@ -65,4 +65,28 @@ describe("adminCopy", () => {
     expect(adminCopy.inventory.title).toBe("موجودی انبار");
     expect(adminCopy.inventory.empty).toBe("رکورد انبارداری یافت نشد.");
   });
+
+  it("has coupons copy", () => {
+    expect(adminCopy.coupons.title).toBe("کدهای تخفیف");
+    expect(adminCopy.coupons.add).toBe("افزودن کد تخفیف");
+    expect(adminCopy.coupons.empty).toBe("کد تخفیفی یافت نشد.");
+  });
+
+  it("has coupon edit copy", () => {
+    expect(adminCopy.couponEdit.title).toBe("ویرایش کد تخفیف");
+    expect(adminCopy.couponEdit.code).toBe("کد تخفیف");
+    expect(adminCopy.couponEdit.back).toBe("بازگشت به فهرست کدهای تخفیف");
+  });
+
+  it("has banners copy", () => {
+    expect(adminCopy.banners.title).toBe("بنرها");
+    expect(adminCopy.banners.add).toBe("افزودن بنر");
+    expect(adminCopy.banners.empty).toBe("بنری یافت نشد.");
+  });
+
+  it("has banner edit copy", () => {
+    expect(adminCopy.bannerEdit.title).toBe("ویرایش بنر");
+    expect(adminCopy.bannerEdit.bannerTitle).toBe("عنوان بنر");
+    expect(adminCopy.bannerEdit.back).toBe("بازگشت به فهرست بنرها");
+  });
 });

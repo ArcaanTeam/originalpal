@@ -2,8 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import AttributesListPage from "@/lib/presentation/ui/features/admin/AttributesListPage";
+import BannerEditPage from "@/lib/presentation/ui/features/admin/BannerEditPage";
+import BannersListPage from "@/lib/presentation/ui/features/admin/BannersListPage";
 import BrandsListPage from "@/lib/presentation/ui/features/admin/BrandsListPage";
 import CategoriesListPage from "@/lib/presentation/ui/features/admin/CategoriesListPage";
+import CouponEditPage from "@/lib/presentation/ui/features/admin/CouponEditPage";
+import CouponsListPage from "@/lib/presentation/ui/features/admin/CouponsListPage";
 import CustomerDetailPage from "@/lib/presentation/ui/features/admin/CustomerDetailPage";
 import CustomersListPage from "@/lib/presentation/ui/features/admin/CustomersListPage";
 import DashboardPage from "@/lib/presentation/ui/features/admin/DashboardPage";
@@ -21,7 +25,9 @@ import TicketDetailPage from "@/lib/presentation/ui/features/admin/TicketDetailP
 import TicketsListPage from "@/lib/presentation/ui/features/admin/TicketsListPage";
 import TransactionsPage from "@/lib/presentation/ui/features/admin/TransactionsPage";
 import {
+  findBanner,
   findCustomer,
+  findCoupon,
   findOrder,
   findProduct,
   findReturn,
@@ -48,6 +54,8 @@ const INVENTORY_TITLE = "موجودی انبار";
 const CUSTOMERS_TITLE = "مشتریان";
 const REVIEWS_TITLE = "نظرات و پرسش‌ها";
 const TICKETS_TITLE = "درخواست‌های پشتیبانی";
+const COUPONS_TITLE = "کدهای تخفیف";
+const BANNERS_TITLE = "بنرها";
 
 export async function generateMetadata({
   params,
@@ -185,6 +193,40 @@ export async function generateMetadata({
       description: "مشاهده محتوای تیکت پشتیبانی و تاریخچه ارتباطات با مشتری.",
     };
   }
+  if (route === "coupons")
+    return {
+      title: COUPONS_TITLE,
+      description: "ایجاد و مدیریت کدهای تخفیف و کوپن‌های خرید برای مشتریان.",
+    };
+  if (
+    segments[0] === "coupons" &&
+    segments[1] === "edit" &&
+    segments.length === 3
+  ) {
+    const coupon = findCoupon(segments[2]);
+    if (!coupon) return { title: "صفحه پیدا نشد" };
+    return {
+      title: `ویرایش کد تخفیف ${coupon.code}`,
+      description: "ویرایش جزئیات کد تخفیف، مقدار و تاریخ انقضا.",
+    };
+  }
+  if (route === "banners")
+    return {
+      title: BANNERS_TITLE,
+      description: "مدیریت بنرهای تبلیغاتی صفحه اصلی و صفحات داخلی.",
+    };
+  if (
+    segments[0] === "banners" &&
+    segments[1] === "edit" &&
+    segments.length === 3
+  ) {
+    const banner = findBanner(segments[2]);
+    if (!banner) return { title: "صفحه پیدا نشد" };
+    return {
+      title: `ویرایش بنر ${banner.title}`,
+      description: "ویرایش متن، تصویر، لینک و تاریخ نمایش بنر.",
+    };
+  }
 
   const screen = findCommerceScreen("admin", segments);
   if (!screen) return { title: "صفحه پیدا نشد" };
@@ -235,7 +277,6 @@ async function AdminRouteContent({ params }: RouteProps) {
   if (segments[0] === "reviews" && segments.length === 2) {
     const review = findReview(segments[1]);
     if (!review) notFound();
-    // Review detail page reuses CustomerDetailPage layout pattern; for now fall through
     return <ReviewsListPage />;
   }
   if (
@@ -252,6 +293,26 @@ async function AdminRouteContent({ params }: RouteProps) {
     const ticket = findTicket(segments[2]);
     if (!ticket) notFound();
     return <TicketDetailPage ticket={ticket} />;
+  }
+  if (route === "coupons") return <CouponsListPage />;
+  if (
+    segments[0] === "coupons" &&
+    segments[1] === "edit" &&
+    segments.length === 3
+  ) {
+    const coupon = findCoupon(segments[2]);
+    if (!coupon) notFound();
+    return <CouponEditPage coupon={coupon} />;
+  }
+  if (route === "banners") return <BannersListPage />;
+  if (
+    segments[0] === "banners" &&
+    segments[1] === "edit" &&
+    segments.length === 3
+  ) {
+    const banner = findBanner(segments[2]);
+    if (!banner) notFound();
+    return <BannerEditPage banner={banner} />;
   }
 
   if (!findCommerceScreen("admin", segments)) notFound();
