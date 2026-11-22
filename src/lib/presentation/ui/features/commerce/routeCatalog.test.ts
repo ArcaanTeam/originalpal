@@ -41,6 +41,12 @@ describe("commerce route catalog", () => {
       "utility",
     );
     expect(findCommerceScreen("store", ["compare"])?.kind).toBe("listing");
+    expect(
+      findCommerceScreen("store", ["product", "samsung-s26-ultra"])?.kind,
+    ).toBe("detail");
+    expect(findCommerceScreen("store", ["reviews", "write"])?.kind).toBe(
+      "form",
+    );
   });
 
   it("returns grouped navigation for both application areas", () => {

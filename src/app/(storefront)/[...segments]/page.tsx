@@ -5,6 +5,8 @@ import CommerceScreenLoading from "@/lib/presentation/ui/features/commerce/Comme
 import CommerceScreenPage from "@/lib/presentation/ui/features/commerce/CommerceScreenPage";
 import { findCommerceScreen } from "@/lib/presentation/ui/features/commerce/routeCatalog";
 import StorefrontBrowsePage from "@/lib/presentation/ui/features/storefront/StorefrontBrowse/StorefrontBrowsePage";
+import StorefrontProductPage from "@/lib/presentation/ui/features/storefront/StorefrontProduct/StorefrontProductPage";
+import StorefrontReviewPage from "@/lib/presentation/ui/features/storefront/StorefrontReview/StorefrontReviewPage";
 
 type RouteProps = {
   params: Promise<{ segments: string[] }>;
@@ -23,6 +25,10 @@ export async function generateMetadata({
 async function StorefrontRouteContent({ params, searchParams }: RouteProps) {
   const [{ segments }, { q }] = await Promise.all([params, searchParams]);
   if (!findCommerceScreen("store", segments)) notFound();
+  if (segments[0] === "product" && segments.length === 2) {
+    return <StorefrontProductPage />;
+  }
+  if (segments.join("/") === "reviews/write") return <StorefrontReviewPage />;
   if (
     segments[0] === "category" ||
     segments[0] === "search" ||
