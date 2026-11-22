@@ -107,7 +107,7 @@ export async function proxy(request: NextRequest) {
 
   if (pathname === "/login") {
     if (session) {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
     return NextResponse.next();
   }

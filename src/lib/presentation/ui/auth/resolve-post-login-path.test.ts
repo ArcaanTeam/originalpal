@@ -9,17 +9,21 @@ describe("resolvePostLoginPath", () => {
     );
   });
 
-  it("falls back to home for missing or external targets", () => {
-    expect(resolvePostLoginPath(null)).toBe("/");
-    expect(resolvePostLoginPath("")).toBe("/");
-    expect(resolvePostLoginPath("https://evil.example")).toBe("/");
-    expect(resolvePostLoginPath("//evil.example")).toBe("/");
-    expect(resolvePostLoginPath("/\\evil.example")).toBe("/");
+  it("falls back to the admin dashboard for missing or external targets", () => {
+    expect(resolvePostLoginPath(null)).toBe("/admin/dashboard");
+    expect(resolvePostLoginPath("")).toBe("/admin/dashboard");
+    expect(resolvePostLoginPath("https://evil.example")).toBe(
+      "/admin/dashboard",
+    );
+    expect(resolvePostLoginPath("//evil.example")).toBe("/admin/dashboard");
+    expect(resolvePostLoginPath("/\\evil.example")).toBe("/admin/dashboard");
   });
 
   it("does not send the browser back to the login page", () => {
-    expect(resolvePostLoginPath("/login")).toBe("/");
-    expect(resolvePostLoginPath("/login?redirectTo=/")).toBe("/");
-    expect(resolvePostLoginPath("/login/extra")).toBe("/");
+    expect(resolvePostLoginPath("/login")).toBe("/admin/dashboard");
+    expect(resolvePostLoginPath("/login?redirectTo=/")).toBe(
+      "/admin/dashboard",
+    );
+    expect(resolvePostLoginPath("/login/extra")).toBe("/admin/dashboard");
   });
 });
