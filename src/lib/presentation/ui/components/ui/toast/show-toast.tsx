@@ -82,7 +82,7 @@ function buildExternalToast(options: ToastOptions): ExternalToast {
         classNames?.title,
       ),
       toast: cn(
-        "toast-glass inline-flex w-fit max-w-md flex-row items-center gap-3 rounded-[1.375rem] py-3 ps-3 pe-3.5 text-foreground",
+        "toast-surface inline-flex w-fit max-w-md flex-row items-center gap-3 rounded-[1.375rem] py-3 ps-3 pe-3.5 text-foreground",
         "max-md:max-w-[min(100vw-4rem,18rem)] max-md:gap-2 max-md:rounded-2xl max-md:p-2.5",
         classNames?.base,
       ),

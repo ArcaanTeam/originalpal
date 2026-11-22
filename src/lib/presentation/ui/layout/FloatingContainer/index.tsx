@@ -9,12 +9,12 @@ const variants = {
   header: cn(
     "fixed inset-x-0 top-0 isolate z-50 overflow-hidden md:hidden",
     "pr-[env(safe-area-inset-right,0px)] pl-[env(safe-area-inset-left,0px)]",
-    "border-b border-border bg-card-chrome pt-[env(safe-area-inset-top,0px)] backdrop-blur-xl backdrop-saturate-150",
+    "border-b border-border bg-card-chrome pt-[env(safe-area-inset-top,0px)]",
   ),
   footer: cn(
     "fixed inset-x-0 bottom-0 isolate z-50 overflow-hidden md:hidden",
     "pr-[env(safe-area-inset-right,0px)] pl-[env(safe-area-inset-left,0px)]",
-    "border-t border-border bg-card-chrome pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-xl backdrop-saturate-150",
+    "border-t border-border bg-card-chrome pb-[env(safe-area-inset-bottom,0px)]",
   ),
 } as const;
 

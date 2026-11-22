@@ -28,8 +28,7 @@ import { MARKDOWN_EMOJI_PRESETS } from "./markdown-emoji-presets";
 
 const HEADING_LEVELS = [1, 2, 3, 4, 5, 6] as const;
 
-const toolbarButtonClass =
-  "markdown-editor-toolbar-btn tree-glass-btn-ghost size-9 rounded-xl";
+const toolbarButtonClass = "markdown-editor-toolbar-btn  size-9 rounded-xl";
 
 function formatHeadingLevelLabel(level: number): string {
   return `عنوان ${level.toLocaleString("fa-IR")}`;
@@ -65,7 +64,7 @@ export function MarkdownHeadingMenu({
       </Tooltip>
       <DropdownMenuContent
         align="start"
-        className="tree-glass tree-glass-elevated min-w-36 border-white/10 p-1 backdrop-blur-2xl"
+        className="min-w-36 border-white/10 bg-popover p-1 shadow-md"
       >
         {HEADING_LEVELS.map((level) => (
           <DropdownMenuItem
@@ -122,9 +121,9 @@ export function MarkdownEmojiPicker({
       <PopoverContent
         side="bottom"
         align="start"
-        className="tree-glass tree-glass-elevated w-[min(calc(100vw-2rem),14.5rem)] border-white/10 p-2 backdrop-blur-2xl"
+        className="w-[min(calc(100vw-2rem),14.5rem)] border-white/10 bg-popover p-2 shadow-md"
       >
-        <p className="tree-glass-section-label mb-2 px-1">شکلک</p>
+        <p className="mb-2 px-1">شکلک</p>
         <div
           className="markdown-emoji-grid grid grid-cols-8 gap-0.5"
           role="listbox"

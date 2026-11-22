@@ -109,7 +109,7 @@ export default function MarkdownEditor({
   return (
     <div
       className={cn(
-        "markdown-editor-shell tree-glass-input min-h-0 flex-1",
+        "markdown-editor-shell min-h-0 flex-1 rounded-md border border-input bg-card",
         isSourceLoading && "markdown-editor-shell--loading",
         className,
       )}
