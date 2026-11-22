@@ -20,7 +20,7 @@ docker compose up --build -d
 docker compose exec app node scripts/seed.mjs
 ```
 
-Compose starts an isolated PostgreSQL 18 service with a named data volume. It binds PostgreSQL to `127.0.0.1:5439` by default to avoid colliding with a host database; change `POSTGRES_PORT` in `.env` if needed. The app container connects over the Compose network using `DATABASE_URL_DOCKER`; host-side scripts use `DATABASE_URL`. Change the development `POSTGRES_PASSWORD` before use and keep the two DSNs in sync.
+Compose starts an isolated PostgreSQL 18 service with a named data volume. It binds PostgreSQL to `127.0.0.1:5439` by default to avoid colliding with a host database; change `POSTGRES_PORT` in `.env` if needed. The app container connects over the Compose network using `DATABASE_URL_DOCKER`; host-side scripts use `DATABASE_URL`. Change the development `POSTGRES_PASSWORD` before use and keep the two DSNs in sync. For the simplest `.env` setup, use an alphanumeric password; Compose treats `$` as interpolation syntax, so write it as `$$` in `POSTGRES_PASSWORD`, and percent-encode reserved characters (for example, `@` as `%40` and `$` as `%24`) in both database URLs.
 
 `pnpm run init` prompts for a new project name (plus optional display title, description, and Postgres schema) and renames the package, schema and migrations, auth cookies, JWT issuer, theme storage key, Docker tags, and UI title/README — both on a fresh clone and on an already-renamed project. Non-interactive: `pnpm run init -- --name my-app --yes` (note: use `pnpm run init` because bare `pnpm init` is pnpm's built-in command).
 
