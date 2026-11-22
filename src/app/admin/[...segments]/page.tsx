@@ -16,6 +16,7 @@ import DashboardPage from "@/lib/presentation/ui/features/admin/DashboardPage";
 import IntegrationsPage from "@/lib/presentation/ui/features/admin/IntegrationsPage";
 import InternalLinksPage from "@/lib/presentation/ui/features/admin/InternalLinksPage";
 import InventoryPage from "@/lib/presentation/ui/features/admin/InventoryPage";
+import MessageTemplatesPage from "@/lib/presentation/ui/features/admin/MessageTemplatesPage";
 import OrderDetailPage from "@/lib/presentation/ui/features/admin/OrderDetailPage";
 import OrdersListPage from "@/lib/presentation/ui/features/admin/OrdersListPage";
 import ProductEditPage from "@/lib/presentation/ui/features/admin/ProductEditPage";
@@ -26,15 +27,18 @@ import ReportsPage from "@/lib/presentation/ui/features/admin/ReportsPage";
 import ReturnDetailPage from "@/lib/presentation/ui/features/admin/ReturnDetailPage";
 import ReturnsListPage from "@/lib/presentation/ui/features/admin/ReturnsListPage";
 import ReviewsListPage from "@/lib/presentation/ui/features/admin/ReviewsListPage";
+import RolesListPage from "@/lib/presentation/ui/features/admin/RolesListPage";
 import SchemaPage from "@/lib/presentation/ui/features/admin/SchemaPage";
 import SeoBulkPage from "@/lib/presentation/ui/features/admin/SeoBulkPage";
 import SeoOverviewPage from "@/lib/presentation/ui/features/admin/SeoOverviewPage";
 import SeoSettingsPage from "@/lib/presentation/ui/features/admin/SeoSettingsPage";
 import ShippingPage from "@/lib/presentation/ui/features/admin/ShippingPage";
 import SitemapRobotsPage from "@/lib/presentation/ui/features/admin/SitemapRobotsPage";
+import StoreSettingsPage from "@/lib/presentation/ui/features/admin/StoreSettingsPage";
 import TicketDetailPage from "@/lib/presentation/ui/features/admin/TicketDetailPage";
 import TicketsListPage from "@/lib/presentation/ui/features/admin/TicketsListPage";
 import TransactionsPage from "@/lib/presentation/ui/features/admin/TransactionsPage";
+import UsersListPage from "@/lib/presentation/ui/features/admin/UsersListPage";
 import {
   findBanner,
   findBrokenLink,
@@ -78,6 +82,10 @@ const SEO_SCHEMA_TITLE = "اسکیما (Schema)";
 const SEO_BROKEN_LINKS_TITLE = "لینک‌های شکسته";
 const SEO_INTERNAL_LINKS_TITLE = "لینک‌سازی داخلی";
 const SEO_INTEGRATIONS_TITLE = "اتصال‌ها و کدها";
+const SETTINGS_STORE_TITLE = "تنظیمات فروشگاه";
+const SETTINGS_USERS_TITLE = "کاربران و نقش‌ها";
+const SETTINGS_ROLES_TITLE = "نقش‌ها و دسترسی‌ها";
+const SETTINGS_TEMPLATES_TITLE = "قالب پیام‌ها";
 
 export async function generateMetadata({
   params,
@@ -320,6 +328,27 @@ export async function generateMetadata({
       title: SEO_INTEGRATIONS_TITLE,
       description: "اتصال به ابزارهای شخص ثالث و کدهای پیگیری.",
     };
+  if (route === "settings/store")
+    return {
+      title: SETTINGS_STORE_TITLE,
+      description: "تنظیمات کلی فروشگاه، ارسال، پرداخت و اعلان‌ها.",
+    };
+  if (route === "settings/users")
+    return {
+      title: SETTINGS_USERS_TITLE,
+      description: "مدیریت حساب‌های کاربری و نقش‌های دسترسی.",
+    };
+  if (route === "settings/roles")
+    return {
+      title: SETTINGS_ROLES_TITLE,
+      description: "تنظیم دسترسی‌های مشاهده، ایجاد، ویرایش و حذف برای هر نقش.",
+    };
+  if (route === "settings/templates")
+    return {
+      title: SETTINGS_TEMPLATES_TITLE,
+      description:
+        "برای هر رویداد، ارسال پیامک، ایمیل یا هر دو را جداگانه روشن یا خاموش کنید.",
+    };
 
   const screen = findCommerceScreen("admin", segments);
   if (!screen) return { title: "صفحه پیدا نشد" };
@@ -434,6 +463,10 @@ async function AdminRouteContent({ params }: RouteProps) {
   }
   if (route === "seo/internal-links") return <InternalLinksPage />;
   if (route === "seo/integrations") return <IntegrationsPage />;
+  if (route === "settings/store") return <StoreSettingsPage />;
+  if (route === "settings/users") return <UsersListPage />;
+  if (route === "settings/roles") return <RolesListPage />;
+  if (route === "settings/templates") return <MessageTemplatesPage />;
 
   if (!findCommerceScreen("admin", segments)) notFound();
   return <CommerceScreenPage area="admin" segments={segments} />;

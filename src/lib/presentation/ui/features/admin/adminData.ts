@@ -1059,6 +1059,423 @@ export function findBrokenLink(id: string): BrokenLink | undefined {
   return brokenLinks.find((brokenLink) => brokenLink.id === id);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   تنظیمات (Settings) — Attachment 17
+   ═══════════════════════════════════════════════════════════════ */
+
+export type UserStatus = "active" | "inactive";
+
+export interface User {
+  id: string;
+  name: string;
+  role: string;
+  lastLogin: string;
+  status: UserStatus;
+}
+
+export const users: User[] = [
+  {
+    id: "US-1001",
+    name: "علی رضایی",
+    role: "مدیر کل",
+    lastLogin: "امروز ۱۰:۱۲",
+    status: "active",
+  },
+  {
+    id: "US-1002",
+    name: "مریم احمدی",
+    role: "مدیر محتوا",
+    lastLogin: "دیروز ۱۸:۴۰",
+    status: "active",
+  },
+  {
+    id: "US-1003",
+    name: "پریسا اکبری",
+    role: "پشتیبان",
+    lastLogin: "امروز ۰۹:۰۵",
+    status: "active",
+  },
+  {
+    id: "US-1004",
+    name: "امیر حسینی",
+    role: "انباردار",
+    lastLogin: "۱۴۰۵/۰۷/۲۸",
+    status: "inactive",
+  },
+];
+
+export type RoleSection =
+  | "products"
+  | "orders"
+  | "customers"
+  | "content"
+  | "seo"
+  | "reports"
+  | "settings";
+
+export interface RolePermission {
+  section: RoleSection;
+  view: boolean;
+  create: boolean;
+  edit: boolean;
+  delete: boolean;
+}
+
+export interface Role {
+  id: string;
+  name: string;
+  userCount: number;
+  permissions: RolePermission[];
+}
+
+export const roles: Role[] = [
+  {
+    id: "RL-2001",
+    name: "مدیر کل",
+    userCount: 1,
+    permissions: [
+      {
+        section: "products",
+        view: true,
+        create: true,
+        edit: true,
+        delete: true,
+      },
+      { section: "orders", view: true, create: true, edit: true, delete: true },
+      {
+        section: "customers",
+        view: true,
+        create: true,
+        edit: true,
+        delete: true,
+      },
+      {
+        section: "content",
+        view: true,
+        create: true,
+        edit: true,
+        delete: true,
+      },
+      { section: "seo", view: true, create: true, edit: true, delete: true },
+      {
+        section: "reports",
+        view: true,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "settings",
+        view: true,
+        create: true,
+        edit: true,
+        delete: true,
+      },
+    ],
+  },
+  {
+    id: "RL-2002",
+    name: "مدیر محتوا",
+    userCount: 1,
+    permissions: [
+      {
+        section: "products",
+        view: true,
+        create: true,
+        edit: true,
+        delete: false,
+      },
+      {
+        section: "orders",
+        view: true,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "customers",
+        view: true,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "content",
+        view: true,
+        create: true,
+        edit: true,
+        delete: true,
+      },
+      { section: "seo", view: true, create: false, edit: false, delete: false },
+      {
+        section: "reports",
+        view: true,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "settings",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+    ],
+  },
+  {
+    id: "RL-2003",
+    name: "پشتیبان",
+    userCount: 3,
+    permissions: [
+      {
+        section: "products",
+        view: true,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "orders",
+        view: true,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "customers",
+        view: true,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "content",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "seo",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "reports",
+        view: true,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "settings",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+    ],
+  },
+  {
+    id: "RL-2004",
+    name: "انباردار",
+    userCount: 2,
+    permissions: [
+      {
+        section: "products",
+        view: true,
+        create: false,
+        edit: true,
+        delete: false,
+      },
+      {
+        section: "orders",
+        view: true,
+        create: false,
+        edit: true,
+        delete: false,
+      },
+      {
+        section: "customers",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "content",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "seo",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "reports",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+      {
+        section: "settings",
+        view: false,
+        create: false,
+        edit: false,
+        delete: false,
+      },
+    ],
+  },
+];
+
+export const roleSectionLabels: Record<RoleSection, string> = {
+  products: "محصولات",
+  orders: "سفارش‌ها",
+  customers: "مشتریان",
+  content: "محتوا و مجله",
+  seo: "سئو",
+  reports: "گزارش‌ها",
+  settings: "تنظیمات",
+};
+
+export interface StoreSettings {
+  storeName: string;
+  supportEmail: string;
+  supportPhone: string;
+  address: string;
+  shippingStandard: string;
+  shippingExpress: string;
+  shippingExpressPrice: number;
+  freeShippingThreshold: number;
+  paymentOnline: boolean;
+  paymentWallet: boolean;
+  paymentInstallment: boolean;
+  notifyOrderSms: boolean;
+  notifyLowStockEmail: boolean;
+}
+
+export const storeSettings: StoreSettings = {
+  storeName: "اورجینال‌پل",
+  supportEmail: "پشتیبانی@originalpal.example",
+  supportPhone: "۰۲۱-۱۲۳۴۵۶۷۸",
+  address: "تهران، خیابان ولیعصر، پلاک ۱۲۳",
+  shippingStandard: "۲ تا ۴ روز کاری",
+  shippingExpress: "۱ تا ۲ روز کاری",
+  shippingExpressPrice: 180000,
+  freeShippingThreshold: 500000,
+  paymentOnline: true,
+  paymentWallet: true,
+  paymentInstallment: true,
+  notifyOrderSms: true,
+  notifyLowStockEmail: true,
+};
+
+export type MessageChannel = "sms" | "email";
+
+export interface MessageTemplate {
+  id: string;
+  event: string;
+  eventLabel: string;
+  sms: boolean;
+  email: boolean;
+  variables: string[];
+  smsBody: string;
+  emailSubject: string;
+  emailBody: string;
+  preview: string;
+}
+
+export const messageTemplates: MessageTemplate[] = [
+  {
+    id: "TP-3001",
+    event: "order-placed",
+    eventLabel: "ثبت سفارش",
+    sms: true,
+    email: true,
+    variables: ["{order_id}", "{customer_name}", "{amount}", "{tracking_url}"],
+    smsBody:
+      "{customer_name} عزیز، سفارش {order_id} شما با موفقیت ثبت شد و در حال پردازش است.",
+    emailSubject: "تأیید ثبت سفارش #{order_id}",
+    emailBody:
+      "{customer_name} عزیز، سفارش شما با شماره {order_id} با موفقیت ثبت شد. برای پیگیری وارد حساب خود شوید.",
+    preview: "علی عزیز، سفارش ۱۰۰۱۲۸ شما با موفقیت ثبت شد و در حال پردازش است.",
+  },
+  {
+    id: "TP-3002",
+    event: "payment-success",
+    eventLabel: "پرداخت موفق",
+    sms: true,
+    email: true,
+    variables: ["{order_id}", "{customer_name}", "{amount}", "{tracking_url}"],
+    smsBody:
+      "{customer_name} عزیز، پرداخت سفارش {order_id} به مبلغ {amount} تومان با موفقیت انجام شد.",
+    emailSubject: "تایید پرداخت سفارش #{order_id}",
+    emailBody:
+      "{customer_name} عزیز، پرداخت سفارش {order_id} به مبلغ {amount} تومان انجام شد. برای پیگیری سفارش وارد حساب خود شوید.",
+    preview:
+      "علی عزیز، پرداخت سفارش ۱۰۰۱۲۸ به مبلغ ۸۹٬۹۰۰٬۰۰۰ تومان با موفقیت انجام شد.",
+  },
+  {
+    id: "TP-3003",
+    event: "order-shipped",
+    eventLabel: "ارسال سفارش",
+    sms: true,
+    email: false,
+    variables: ["{order_id}", "{customer_name}", "{tracking_url}"],
+    smsBody:
+      "{customer_name} عزیز، سفارش {order_id} شما ارسال شد. کد پیگیری: {tracking_url}",
+    emailSubject: "",
+    emailBody: "",
+    preview: "",
+  },
+  {
+    id: "TP-3004",
+    event: "login-code",
+    eventLabel: "کد تأیید ورود",
+    sms: true,
+    email: true,
+    variables: ["{customer_name}", "{code}"],
+    smsBody: "{customer_name} عزیز، کد تایید ورود شما: {code}",
+    emailSubject: "کد تایید ورود",
+    emailBody: "{customer_name} عزیز، کد تایید ورود شما: {code}",
+    preview: "",
+  },
+  {
+    id: "TP-3005",
+    event: "abandoned-cart",
+    eventLabel: "یادآوری سبد خرید",
+    sms: false,
+    email: true,
+    variables: ["{customer_name}", "{amount}"],
+    smsBody: "",
+    emailSubject: "سبد خرید شما در انتظار است",
+    emailBody:
+      "{customer_name} عزیز، سبد خرید شما به مبلغ {amount} تومان در انتظار تکمیل است.",
+    preview: "",
+  },
+];
+
+export function findUser(id: string): User | undefined {
+  return users.find((user) => user.id === id);
+}
+
+export function findRole(id: string): Role | undefined {
+  return roles.find((role) => role.id === id);
+}
+
+export function findMessageTemplate(id: string): MessageTemplate | undefined {
+  return messageTemplates.find((template) => template.id === id);
+}
+
 export function formatToman(value: number): string {
   return value.toLocaleString("fa-IR");
 }
