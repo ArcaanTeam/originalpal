@@ -1,11 +1,11 @@
 import { Suspense } from "react";
-import HomeDashboardPage from "@/lib/presentation/ui/features/home/HomeDashboard/HomeDashboardPage";
-import HomeDashboardLoadingUI from "@/lib/presentation/ui/features/home/HomeDashboard/loading";
+import CommerceScreenLoading from "@/lib/presentation/ui/features/commerce/CommerceScreenLoading";
+import CommerceScreenPage from "@/lib/presentation/ui/features/commerce/CommerceScreenPage";
 
 export default function HomePage() {
   return (
-    <Suspense fallback={<HomeDashboardLoadingUI />}>
-      <HomeDashboardPage />
+    <Suspense fallback={<CommerceScreenLoading area="store" />}>
+      <CommerceScreenPage area="store" segments={[]} />
     </Suspense>
   );
 }

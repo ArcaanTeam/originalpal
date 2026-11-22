@@ -16,6 +16,7 @@ import {
 } from "@/lib/presentation/auth/route-permissions";
 
 const PUBLIC_PATHS = [
+  "/",
   "/login",
   "/store",
   "/api/auth/login",

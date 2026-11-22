@@ -3,28 +3,30 @@
   --radius: 0.625rem;
   --font-variation-iransans: "DOTS" 8;
   --font-feature-iransans: "ss02" 1, "rlig" 1;
-  --brand: oklch(0.6326 0.162 252.25);
+  /* Foundations board: warm paper, charcoal ink, teal action, marigold accent. */
+  --brand: #0b6e6e;
 
-  --background: oklch(0.99 0.003 259);
-  --foreground: oklch(0.16 0.025 259);
-  --card: oklch(1 0 0);
+  --background: #faf9f5;
+  --foreground: #1b1f2a;
+  --card: #ffffff;
   --card-foreground: var(--foreground);
   --card-solid: var(--card);
   --card-chrome: var(--card);
   --popover: var(--card);
   --popover-foreground: var(--foreground);
-  --primary: oklch(0.24 0.045 259);
-  --primary-foreground: oklch(0.985 0.004 259);
-  --secondary: oklch(0.955 0.008 259);
-  --secondary-foreground: var(--primary);
-  --muted: var(--secondary);
-  --muted-foreground: oklch(0.5 0.025 259);
-  --accent: var(--secondary);
-  --accent-foreground: var(--primary);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.008 259);
-  --input: oklch(0.86 0.012 259);
-  --ring: color-mix(in oklab, var(--brand) 80%, white);
+  --primary: #0b6e6e;
+  --primary-foreground: #ffffff;
+  --primary-soft: #e3f1f0;
+  --secondary: #f0eee8;
+  --secondary-foreground: #1b1f2a;
+  --muted: #f0eee8;
+  --muted-foreground: #5b6070;
+  --accent: #f5b83d;
+  --accent-foreground: #1b1f2a;
+  --destructive: #b42318;
+  --border: #e5e2da;
+  --input: #8c8a82;
+  --ring: #0b6e6e;
 
   /* Existing project-specific semantic aliases, now fully opaque. */
   --field: var(--card);

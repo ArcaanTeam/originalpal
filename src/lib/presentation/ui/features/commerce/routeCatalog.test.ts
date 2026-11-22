@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 import { findCommerceScreen, getNavigationGroups } from "./routeCatalog";
 
 describe("commerce route catalog", () => {
-  it("resolves the storefront's fixed and parameterized routes", () => {
+  it("resolves the storefront root, fixed, and parameterized routes", () => {
+    expect(findCommerceScreen("store", [])?.path).toBe("");
+    expect(findCommerceScreen("admin", ["dashboard"])?.title).toBe("داشبورد");
     expect(findCommerceScreen("store", ["deals"])?.title).toBe(
       "پیشنهادهای ویژه",
     );
