@@ -179,7 +179,7 @@ export function StoreHeader() {
           </form>
           <div className="ms-auto hidden items-center gap-2 sm:flex">
             <Link
-              href="/login"
+              href="/account/login"
               className="rounded-md px-3 py-2 text-sm font-semibold hover:bg-white/10"
             >
               سلام، وارد شوید
@@ -547,7 +547,7 @@ export function StoreFooter() {
             <h2 className="font-bold">حساب من</h2>
             <ul className="mt-2 space-y-2 text-xs text-muted-foreground">
               <li>
-                <Link href="/login">ورود</Link>
+                <Link href="/account/login">ورود</Link>
               </li>
               <li>
                 <Link href="/account/orders">سفارش‌های من</Link>

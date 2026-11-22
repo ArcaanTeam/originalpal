@@ -28,6 +28,7 @@ const PUBLIC_PATHS = [
   "/reviews",
   "/cart",
   "/checkout",
+  "/account/login",
   "/magazine",
   "/contact",
   "/faq",

@@ -172,7 +172,7 @@ function EmptyCart() {
             شروع خرید
           </Link>
           <Link
-            href="/login"
+            href="/account/login"
             className="rounded-lg border border-border px-5 py-3 text-sm font-bold"
           >
             ورود به حساب
