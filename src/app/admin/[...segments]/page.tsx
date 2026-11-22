@@ -5,31 +5,44 @@ import AttributesListPage from "@/lib/presentation/ui/features/admin/AttributesL
 import BannerEditPage from "@/lib/presentation/ui/features/admin/BannerEditPage";
 import BannersListPage from "@/lib/presentation/ui/features/admin/BannersListPage";
 import BrandsListPage from "@/lib/presentation/ui/features/admin/BrandsListPage";
+import BrokenLinkDetailPage from "@/lib/presentation/ui/features/admin/BrokenLinkDetailPage";
+import BrokenLinksPage from "@/lib/presentation/ui/features/admin/BrokenLinksPage";
 import CategoriesListPage from "@/lib/presentation/ui/features/admin/CategoriesListPage";
 import CouponEditPage from "@/lib/presentation/ui/features/admin/CouponEditPage";
 import CouponsListPage from "@/lib/presentation/ui/features/admin/CouponsListPage";
 import CustomerDetailPage from "@/lib/presentation/ui/features/admin/CustomerDetailPage";
 import CustomersListPage from "@/lib/presentation/ui/features/admin/CustomersListPage";
 import DashboardPage from "@/lib/presentation/ui/features/admin/DashboardPage";
+import IntegrationsPage from "@/lib/presentation/ui/features/admin/IntegrationsPage";
+import InternalLinksPage from "@/lib/presentation/ui/features/admin/InternalLinksPage";
 import InventoryPage from "@/lib/presentation/ui/features/admin/InventoryPage";
 import OrderDetailPage from "@/lib/presentation/ui/features/admin/OrderDetailPage";
 import OrdersListPage from "@/lib/presentation/ui/features/admin/OrdersListPage";
 import ProductEditPage from "@/lib/presentation/ui/features/admin/ProductEditPage";
 import ProductsListPage from "@/lib/presentation/ui/features/admin/ProductsListPage";
+import RedirectDetailPage from "@/lib/presentation/ui/features/admin/RedirectDetailPage";
+import RedirectsPage from "@/lib/presentation/ui/features/admin/RedirectsPage";
 import ReportsPage from "@/lib/presentation/ui/features/admin/ReportsPage";
 import ReturnDetailPage from "@/lib/presentation/ui/features/admin/ReturnDetailPage";
 import ReturnsListPage from "@/lib/presentation/ui/features/admin/ReturnsListPage";
 import ReviewsListPage from "@/lib/presentation/ui/features/admin/ReviewsListPage";
+import SchemaPage from "@/lib/presentation/ui/features/admin/SchemaPage";
+import SeoBulkPage from "@/lib/presentation/ui/features/admin/SeoBulkPage";
+import SeoOverviewPage from "@/lib/presentation/ui/features/admin/SeoOverviewPage";
+import SeoSettingsPage from "@/lib/presentation/ui/features/admin/SeoSettingsPage";
 import ShippingPage from "@/lib/presentation/ui/features/admin/ShippingPage";
+import SitemapRobotsPage from "@/lib/presentation/ui/features/admin/SitemapRobotsPage";
 import TicketDetailPage from "@/lib/presentation/ui/features/admin/TicketDetailPage";
 import TicketsListPage from "@/lib/presentation/ui/features/admin/TicketsListPage";
 import TransactionsPage from "@/lib/presentation/ui/features/admin/TransactionsPage";
 import {
   findBanner,
+  findBrokenLink,
   findCustomer,
   findCoupon,
   findOrder,
   findProduct,
+  findRedirect,
   findReturn,
   findReview,
   findTicket,
@@ -56,6 +69,15 @@ const REVIEWS_TITLE = "نظرات و پرسش‌ها";
 const TICKETS_TITLE = "درخواست‌های پشتیبانی";
 const COUPONS_TITLE = "کدهای تخفیف";
 const BANNERS_TITLE = "بنرها";
+const SEO_TITLE = "سئو";
+const SEO_SETTINGS_TITLE = "تنظیمات عمومی سئو";
+const SEO_BULK_TITLE = "ویرایش گروهی سئو";
+const SEO_REDIRECTS_TITLE = "ریدیركت‌ها و ۴۰۴";
+const SEO_SITEMAP_TITLE = "سایت‌مپ و Robots.txt";
+const SEO_SCHEMA_TITLE = "اسکیما (Schema)";
+const SEO_BROKEN_LINKS_TITLE = "لینک‌های شکسته";
+const SEO_INTERNAL_LINKS_TITLE = "لینک‌سازی داخلی";
+const SEO_INTEGRATIONS_TITLE = "اتصال‌ها و کدها";
 
 export async function generateMetadata({
   params,
@@ -227,6 +249,77 @@ export async function generateMetadata({
       description: "ویرایش متن، تصویر، لینک و تاریخ نمایش بنر.",
     };
   }
+  if (route === "seo")
+    return {
+      title: SEO_TITLE,
+      description:
+        "وضعیت سئو، Core Web Vitals و مشکلات شناسایی شده در یک نگاه.",
+    };
+  if (route === "seo/settings")
+    return {
+      title: SEO_SETTINGS_TITLE,
+      description: "قالب عنوان و توضیحات، آدرس اصلی، ربات‌ها و سرعت سایت.",
+    };
+  if (route === "seo/bulk")
+    return {
+      title: SEO_BULK_TITLE,
+      description:
+        "تغییرات گروهی در عنوان، توضیحات و robots برای صفحات انتخاب‌شده.",
+    };
+  if (route === "seo/redirects")
+    return {
+      title: SEO_REDIRECTS_TITLE,
+      description: "مدیریت ریدایرکت‌ها و نظارت بر خطاهای ۴۰۴ اخیر.",
+    };
+  if (
+    segments[0] === "seo" &&
+    segments[1] === "redirects" &&
+    segments.length === 3
+  ) {
+    const redirect = findRedirect(segments[2]);
+    if (!redirect) return { title: "صفحه پیدا نشد" };
+    return {
+      title: `ریدیركت ${redirect.source}`,
+      description: "مشاهده و ویرایش جزئیات ریدایرکت.",
+    };
+  }
+  if (route === "seo/sitemap")
+    return {
+      title: SEO_SITEMAP_TITLE,
+      description: "وضعیت نقشه سایت XML و ویرایشگر فایل Robots.txt.",
+    };
+  if (route === "seo/schema")
+    return {
+      title: SEO_SCHEMA_TITLE,
+      description: "مدیریت داده‌های ساختاریافته و اسکیما صفحات.",
+    };
+  if (route === "seo/broken-links")
+    return {
+      title: SEO_BROKEN_LINKS_TITLE,
+      description: "اسکن و مدیریت لینک‌های شکسته داخلی و خارجی.",
+    };
+  if (
+    segments[0] === "seo" &&
+    segments[1] === "broken-links" &&
+    segments.length === 3
+  ) {
+    const brokenLink = findBrokenLink(segments[2]);
+    if (!brokenLink) return { title: "صفحه پیدا نشد" };
+    return {
+      title: `لینک شکسته ${brokenLink.url}`,
+      description: "مشاهده جزئیات لینک شکسته و ساخت ریدایرکت.",
+    };
+  }
+  if (route === "seo/internal-links")
+    return {
+      title: SEO_INTERNAL_LINKS_TITLE,
+      description: "مدیریت لینک‌های داخلی بین صفحات و محتوای سایت.",
+    };
+  if (route === "seo/integrations")
+    return {
+      title: SEO_INTEGRATIONS_TITLE,
+      description: "اتصال به ابزارهای شخص ثالث و کدهای پیگیری.",
+    };
 
   const screen = findCommerceScreen("admin", segments);
   if (!screen) return { title: "صفحه پیدا نشد" };
@@ -314,6 +407,33 @@ async function AdminRouteContent({ params }: RouteProps) {
     if (!banner) notFound();
     return <BannerEditPage banner={banner} />;
   }
+  if (route === "seo") return <SeoOverviewPage />;
+  if (route === "seo/settings") return <SeoSettingsPage />;
+  if (route === "seo/bulk") return <SeoBulkPage />;
+  if (route === "seo/redirects") return <RedirectsPage />;
+  if (
+    segments[0] === "seo" &&
+    segments[1] === "redirects" &&
+    segments.length === 3
+  ) {
+    const redirect = findRedirect(segments[2]);
+    if (!redirect) notFound();
+    return <RedirectDetailPage redirect={redirect} />;
+  }
+  if (route === "seo/sitemap") return <SitemapRobotsPage />;
+  if (route === "seo/schema") return <SchemaPage />;
+  if (route === "seo/broken-links") return <BrokenLinksPage />;
+  if (
+    segments[0] === "seo" &&
+    segments[1] === "broken-links" &&
+    segments.length === 3
+  ) {
+    const brokenLink = findBrokenLink(segments[2]);
+    if (!brokenLink) notFound();
+    return <BrokenLinkDetailPage brokenLink={brokenLink} />;
+  }
+  if (route === "seo/internal-links") return <InternalLinksPage />;
+  if (route === "seo/integrations") return <IntegrationsPage />;
 
   if (!findCommerceScreen("admin", segments)) notFound();
   return <CommerceScreenPage area="admin" segments={segments} />;

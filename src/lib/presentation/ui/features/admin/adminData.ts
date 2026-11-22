@@ -765,6 +765,300 @@ export function findBanner(id: string): Banner | undefined {
   return banners.find((banner) => banner.id === id);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   SEO (سئو) — Attachment 16
+   ═══════════════════════════════════════════════════════════════ */
+
+export type RedirectType = "301" | "302";
+
+export interface Redirect {
+  id: string;
+  source: string;
+  destination: string;
+  type: RedirectType;
+  visits: number;
+  createdAt: string;
+}
+
+export const redirects: Redirect[] = [
+  {
+    id: "RD-3001",
+    source: "/old-product",
+    destination: "/product/samsung-galaxy-s26-ultra",
+    type: "301",
+    visits: 420,
+    createdAt: "۱۴۰۵/۰۸/۲۰",
+  },
+  {
+    id: "RD-3002",
+    source: "/mobile",
+    destination: "/category/mobile-phone",
+    type: "301",
+    visits: 210,
+    createdAt: "۱۴۰۵/۰۸/۲۲",
+  },
+  {
+    id: "RD-3003",
+    source: "/blog/old-guide",
+    destination: "/blog/flagship-phone-buying-guide",
+    type: "301",
+    visits: 136,
+    createdAt: "۱۴۰۵/۰۸/۲۵",
+  },
+  {
+    id: "RD-3004",
+    source: "/sale",
+    destination: "/campaign/winter",
+    type: "302",
+    visits: 88,
+    createdAt: "۱۴۰۵/۰۸/۲۸",
+  },
+];
+
+export interface NotFound404 {
+  id: string;
+  path: string;
+  visits: number;
+  lastVisited: string;
+  actionLabel: string;
+}
+
+export const notFound404s: NotFound404[] = [
+  {
+    id: "NF-4001",
+    path: "/products/samsung-s26",
+    visits: 61,
+    lastVisited: "امروز",
+    actionLabel: "ساخت ریدایرکت",
+  },
+  {
+    id: "NF-4002",
+    path: "/blog/phone-guide-2025",
+    visits: 38,
+    lastVisited: "دیروز",
+    actionLabel: "ساخت ریدایرکت",
+  },
+  {
+    id: "NF-4003",
+    path: "/category/mobiles",
+    visits: 24,
+    lastVisited: "۳ روز پیش",
+    actionLabel: "ساخت ریدایرکت",
+  },
+];
+
+export type CoreWebVitalStatus = "good" | "needs-improvement" | "poor";
+
+export interface CoreWebVitals {
+  lcp: { value: string; status: CoreWebVitalStatus; target: string };
+  inp: { value: string; status: CoreWebVitalStatus; target: string };
+  cls: { value: string; status: CoreWebVitalStatus; target: string };
+}
+
+export const coreWebVitals: CoreWebVitals = {
+  lcp: { value: "۲٫۱ ثانیه", status: "good", target: "زیر ۲٫۵ ثانیه" },
+  inp: {
+    value: "۱۸۰ میلی‌ثانیه",
+    status: "good",
+    target: "زیر ۲۰۰ میلی‌ثانیه",
+  },
+  cls: { value: "۰٫۰۸", status: "good", target: "زیر ۰٫۱" },
+};
+
+export type SeoIssueSeverity = "critical" | "needs-improvement" | "info";
+
+export interface SeoIssue {
+  id: string;
+  title: string;
+  count: number;
+  severity: SeoIssueSeverity;
+  status: string;
+}
+
+export const seoIssues: SeoIssue[] = [
+  {
+    id: "SI-5001",
+    title: "صفحه بدون توضیحات متا",
+    count: 14,
+    severity: "needs-improvement",
+    status: "نصب به بهبود",
+  },
+  {
+    id: "SI-5002",
+    title: "تصویر بدون متن جایگزین (Alt)",
+    count: 9,
+    severity: "needs-improvement",
+    status: "نصب به بهبود",
+  },
+  {
+    id: "SI-5003",
+    title: "صفحه با عنوان سئو تکراری",
+    count: 3,
+    severity: "needs-improvement",
+    status: "نصب به بهبود",
+  },
+  {
+    id: "SI-5004",
+    title: "لینک شکسته داخلی",
+    count: 12,
+    severity: "critical",
+    status: "بحرانی",
+  },
+  {
+    id: "SI-5005",
+    title: "صفحه با وضعیت Noindex",
+    count: 6,
+    severity: "info",
+    status: "اطلاع",
+  },
+];
+
+export interface SitemapFile {
+  file: string;
+  count: number;
+  lastGenerated: string;
+}
+
+export const sitemapFiles: SitemapFile[] = [
+  { file: "sitemap-products.xml", count: 1280, lastGenerated: "۱۴۰۵/۰۸/۰۴" },
+  { file: "sitemap-categories.xml", count: 148, lastGenerated: "۱۴۰۵/۰۸/۰۴" },
+  { file: "sitemap-blog.xml", count: 36, lastGenerated: "۱۴۰۵/۰۸/۰۴" },
+  { file: "sitemap-pages.xml", count: 40, lastGenerated: "۱۴۰۵/۰۸/۰۴" },
+];
+
+export interface SchemaType {
+  id: string;
+  name: string;
+  pages: number;
+  status: string;
+}
+
+export const schemas: SchemaType[] = [
+  { id: "SC-6001", name: "محصول (Product)", pages: 1280, status: "فعال" },
+  { id: "SC-6002", name: "مقاله (Article)", pages: 36, status: "فعال" },
+  {
+    id: "SC-6003",
+    name: "دسته‌بندی (BreadcrumbList)",
+    pages: 148,
+    status: "فعال",
+  },
+  { id: "SC-6004", name: "संगठن (Organization)", pages: 1, status: "غیرفعال" },
+];
+
+export interface BrokenLink {
+  id: string;
+  url: string;
+  statusCode: number;
+  type: "internal" | "external";
+  foundIn: string;
+  actionLabel: string;
+}
+
+export const brokenLinks: BrokenLink[] = [
+  {
+    id: "BL-7001",
+    url: "/product/old-samsung-s24",
+    statusCode: 404,
+    type: "internal",
+    foundIn: "مقاله: راهنمای خرید گوشی پرچم‌دار",
+    actionLabel: "ساخت ریدایرکت",
+  },
+  {
+    id: "BL-7002",
+    url: "/category/tablets-old",
+    statusCode: 404,
+    type: "internal",
+    foundIn: "صفحه اصلی",
+    actionLabel: "ساخت ریدایرکت",
+  },
+  {
+    id: "BL-7003",
+    url: "https://example-store.test/review",
+    statusCode: 404,
+    type: "external",
+    foundIn: "مقاله: نقد هدفون سونی",
+    actionLabel: "ساخت ریدایرکت",
+  },
+  {
+    id: "BL-7004",
+    url: "/blog/removed-post",
+    statusCode: 410,
+    type: "internal",
+    foundIn: "محصول: هدفون سونی WH-1000XM6",
+    actionLabel: "ساخت ریدایرکت",
+  },
+  {
+    id: "BL-7005",
+    url: "https://partner.test/page",
+    statusCode: 408,
+    type: "external",
+    foundIn: "مقاله: چطور اصالت را تشخیص دهیم؟",
+    actionLabel: "ساخت ریدایرکت",
+  },
+];
+
+export interface InternalLink {
+  id: string;
+  source: string;
+  target: string;
+  anchor: string;
+  clicks: number;
+}
+
+export const internalLinks: InternalLink[] = [
+  {
+    id: "IL-8001",
+    source: "/store",
+    target: "/category/mobile",
+    anchor: "گوشی موبایل",
+    clicks: 1240,
+  },
+  {
+    id: "IL-8002",
+    source: "/store",
+    target: "/category/audio",
+    anchor: "صوت و تصویر",
+    clicks: 870,
+  },
+  {
+    id: "IL-8003",
+    source: "/blog/flagship-phone-buying-guide",
+    target: "/product/samsung-galaxy-s26-ultra",
+    anchor: "مراجعة گوشی پرچم‌دار",
+    clicks: 560,
+  },
+];
+
+export interface Connection {
+  id: string;
+  name: string;
+  status: "connected" | "disconnected";
+  lastSync?: string;
+}
+
+export const connections: Connection[] = [
+  {
+    id: "CN-9001",
+    name: "Google Search Console",
+    status: "connected",
+    lastSync: "امروز ۰۹:۳۰",
+  },
+  {
+    id: "CN-9002",
+    name: "Google Analytics 4",
+    status: "connected",
+    lastSync: "امروز ۰۹:۳۰",
+  },
+];
+
+export function findRedirect(id: string): Redirect | undefined {
+  return redirects.find((redirect) => redirect.id === id);
+}
+
+export function findBrokenLink(id: string): BrokenLink | undefined {
+  return brokenLinks.find((brokenLink) => brokenLink.id === id);
+}
+
 export function formatToman(value: number): string {
   return value.toLocaleString("fa-IR");
 }

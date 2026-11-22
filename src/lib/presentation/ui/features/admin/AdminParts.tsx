@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import {
   Clock,
   CreditCard,
@@ -11,6 +12,7 @@ import {
   Ticket as TicketIcon,
   Truck,
   User,
+  ChevronDown,
 } from "lucide-react";
 import { formatToman } from "./adminData";
 import type { Order } from "./adminData";
@@ -31,7 +33,14 @@ import type { Banner } from "./adminData";
 
 const ADMIN_MUTED = "#5b6070";
 
-export const adminLinks = [
+export interface AdminLink {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  children?: AdminLink[];
+}
+
+export const adminLinks: AdminLink[] = [
   { label: "داشبورد", href: "/admin/dashboard", icon: Layout },
   { label: "گزارش‌ها", href: "/admin/reports", icon: Clock },
   { label: "سفارش‌ها", href: "/admin/orders", icon: ShoppingBag },
@@ -52,6 +61,38 @@ export const adminLinks = [
   },
   { label: "کدهای تخفیف", href: "/admin/coupons", icon: TicketIcon },
   { label: "بنرها", href: "/admin/banners", icon: ShoppingBag },
+  {
+    label: "سئو",
+    href: "/admin/seo",
+    icon: Layout,
+    children: [
+      { label: "نمای کلی سئو", href: "/admin/seo", icon: Layout },
+      { label: "تنظیمات عمومی سئو", href: "/admin/seo/settings", icon: Layout },
+      { label: "ویرایش گروهی سئو", href: "/admin/seo/bulk", icon: Layout },
+      { label: "ریدیركت‌ها و ۴۰۴", href: "/admin/seo/redirects", icon: Layout },
+      {
+        label: "سایت‌مپ و Robots.txt",
+        href: "/admin/seo/sitemap",
+        icon: Layout,
+      },
+      { label: "اسکیما (Schema)", href: "/admin/seo/schema", icon: Layout },
+      {
+        label: "لینک‌های شکسته",
+        href: "/admin/seo/broken-links",
+        icon: Layout,
+      },
+      {
+        label: "لینک‌سازی داخلی",
+        href: "/admin/seo/internal-links",
+        icon: Layout,
+      },
+      {
+        label: "اتصال‌ها و کدها",
+        href: "/admin/seo/integrations",
+        icon: Layout,
+      },
+    ],
+  },
 ];
 
 export interface AdminLayoutProps {
@@ -69,6 +110,7 @@ export function AdminLayout({
   description,
   active = "",
 }: AdminLayoutProps) {
+  const [expandedGroups, setExpandedGroups] = useState(new Set<string>());
   return (
     <div dir="rtl" className={`min-h-screen bg-background text-foreground`}>
       <aside className="hidden w-[260px] shrink-0 border-l border-border bg-card p-4 lg:block">
@@ -86,21 +128,77 @@ export function AdminLayout({
         </Link>
         <div className="space-y-5">
           {adminLinks.map((item) => {
-            const Icon = item.icon;
+            if (!item.children) {
+              const Icon = item.icon;
+              const isActive = active === item.label;
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`block rounded-lg px-2.5 py-2 text-xs font-medium transition ${
+                    isActive
+                      ? "bg-primary-soft font-bold text-primary"
+                      : "text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  <Icon size={14} className="mr-2" />
+                  {item.label}
+                </Link>
+              );
+            }
+            const GroupIcon = item.icon;
+            const isExpanded = expandedGroups.has(item.label);
             const isActive = active === item.label;
+            const hasActiveChild =
+              isActive || item.children.some((child) => active === child.label);
             return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`block rounded-lg px-2.5 py-2 text-xs font-medium transition ${
-                  isActive
-                    ? "bg-primary-soft font-bold text-primary"
-                    : "text-muted-foreground hover:bg-muted"
-                }`}
-              >
-                <Icon size={14} className="mr-2" />
-                {item.label}
-              </Link>
+              <div key={item.label} className="overflow-hidden">
+                <Link
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setExpandedGroups((prev) =>
+                      prev.has(item.label)
+                        ? new Set([...prev].filter((x) => x !== item.label))
+                        : new Set([...prev, item.label]),
+                    );
+                  }}
+                  className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-medium transition ${
+                    isActive || hasActiveChild
+                      ? "bg-primary-soft font-bold text-primary"
+                      : "text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  <GroupIcon size={14} className="mr-2" />
+                  {item.label}
+                  <ChevronDown
+                    size={12}
+                    className={`ml-auto transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                  />
+                </Link>
+                {isExpanded && (
+                  <div className="ml-3 space-y-1">
+                    {item.children.map((child) => {
+                      const ChildIcon = child.icon;
+                      const isChildActive = active === child.label;
+                      return (
+                        <Link
+                          key={child.label}
+                          href={child.href}
+                          className={`block rounded-lg px-4 py-1.5 text-[10px] font-medium transition ${
+                            isChildActive
+                              ? "bg-primary-soft font-bold text-primary"
+                              : "text-muted-foreground hover:bg-muted"
+                          }`}
+                        >
+                          <ChildIcon size={12} className="mr-2" />
+                          {child.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>
