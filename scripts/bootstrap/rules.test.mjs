@@ -143,7 +143,7 @@ describe.runIf(isTemplate)("buildRules against the template files", () => {
     };
 
     const sql = apply("drizzle/0000_baseline.sql");
-    expect(sql).toContain('CREATE SCHEMA "acme_crm";');
+    expect(sql).toContain('CREATE SCHEMA IF NOT EXISTS "acme_crm";');
     expect(sql).not.toContain('"app"');
 
     const filesSql = apply("drizzle/0001_files.sql");
