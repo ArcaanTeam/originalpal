@@ -459,7 +459,14 @@ function Magazine() {
         {articles.map(([tag, title, meta], index) => (
           <Link
             key={title}
-            href={`/magazine/article-${index + 1}`}
+            href={`/magazine/${
+              [
+                "flagship-buying-guide",
+                "amoled-vs-lcd",
+                "authenticity-check",
+                "noise-cancelling-headphones",
+              ][index]
+            }`}
             className="group overflow-hidden rounded-xl border border-border bg-white"
           >
             <div
