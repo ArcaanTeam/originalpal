@@ -80,6 +80,16 @@ const fa: Dictionary = {
     title: "دسترسی مجاز نیست",
     description: "شما اجازه دسترسی به این بخش را ندارید.",
   },
+  notFound: {
+    title: "صفحه پیدا نشد",
+    description: "صفحهٔ مورد نظر وجود ندارد یا حذف شده است.",
+    homeButton: "بازگشت به خانه",
+  },
+  serverError: {
+    title: "خطای سرور",
+    description: "متأسفاً خطایی رخ داد. کمی بعد دوباره تلاش کنید.",
+    homeButton: "بازگشت به خانه",
+  },
   errors: {
     title: "خطا",
     fallback: "عملیات انجام نشد. دوباره تلاش کنید.",
