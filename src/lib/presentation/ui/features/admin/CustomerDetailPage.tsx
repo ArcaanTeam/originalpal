@@ -30,28 +30,26 @@ export default function CustomerDetailPage({
         backLabel={copy.back}
       />
       <CustomerDetailCard customer={customer} />
-      <div className="mt-6 rounded-xl border border-[#e9ece8] bg-white p-5">
-        <p className="mb-2 text-[10px] font-bold text-[#087e68]">
-          {copy.orders}
-        </p>
+      <div className="mt-6 rounded-xl border border-border bg-card p-5">
+        <p className="mb-2 text-[10px] font-bold text-primary">{copy.orders}</p>
         <DataTable
           title="تاریخچه سفارشات"
           columns={copy.orderColumns}
           rows={orders.map((o: CustomerOrderSummary) => (
-            <tr key={o.id} className="border-t border-[#f0f1ee] text-[#44514a]">
-              <td className="px-4 py-3 font-bold text-[#087e68]">{o.id}</td>
+            <tr key={o.id} className="border-t border-border text-foreground">
+              <td className="px-4 py-3 font-bold text-primary">{o.id}</td>
               <td className="px-4 py-3">{o.date}</td>
               <td className="px-4 py-3">{formatToman(o.total)} تومان</td>
               <td className="px-4 py-3">
                 <span
                   className={`inline-flex h-5 items-center rounded-full px-2 text-[9px] font-semibold ${
                     o.status === "completed"
-                      ? "bg-[#eaf4ef] text-[#087e68]"
+                      ? "bg-primary-soft text-primary"
                       : o.status === "shipped"
-                        ? "bg-[#eaf4ef] text-[#087e68]"
+                        ? "bg-primary-soft text-primary"
                         : o.status === "processing"
-                          ? "bg-[#f5f7f5] text-[#59655f]"
-                          : "bg-[#fdecea] text-[#b00020]"
+                          ? "bg-muted text-muted-foreground"
+                          : "bg-destructive/10 text-destructive"
                   }`}
                 >
                   {o.status === "completed"
@@ -67,11 +65,13 @@ export default function CustomerDetailPage({
           ))}
         />
         {orders.length === 0 && (
-          <p className="mt-4 text-xs text-[#89938c]">{copy.emptyOrders}</p>
+          <p className="mt-4 text-xs text-muted-foreground">
+            {copy.emptyOrders}
+          </p>
         )}
         <Link
           href="/admin/customers"
-          className="mt-6 inline-flex items-center gap-1 text-xs font-medium text-[#087e68] hover:underline"
+          className="mt-6 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

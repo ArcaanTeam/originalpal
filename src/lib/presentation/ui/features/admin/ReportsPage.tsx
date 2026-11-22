@@ -11,7 +11,7 @@ export default function ReportsPage() {
       "۱۴۰۵/۰۹/۰۵",
       "۱۴۰۵/۰۹/۰۵ ۰۸:۰۰",
       "تکمیل شده",
-      <a key="dl1" href="#" className="text-xs font-semibold text-[#087e68]">
+      <a key="dl1" href="#" className="text-xs font-semibold text-primary">
         دریافت
       </a>,
     ],
@@ -20,7 +20,7 @@ export default function ReportsPage() {
       "۱۴۰۵/۰۸/۲۵ - ۱۴۰۵/۰۸/۳۱",
       "۱۴۰۵/۰۹/۰۱ ۰۹:۳۰",
       "تکمیل شده",
-      <a key="dl2" href="#" className="text-xs font-semibold text-[#087e68]">
+      <a key="dl2" href="#" className="text-xs font-semibold text-primary">
         دریافت
       </a>,
     ],
@@ -29,15 +29,12 @@ export default function ReportsPage() {
       "۱۴۰۵/۰۸/۰۱ - ۱۴۰۵/۰۸/۳۱",
       "۱۴۰۵/۰۹/۰۲ ۱۱:۱۵",
       "در انتظار",
-      <a key="dl3" href="#" className="text-xs font-semibold text-[#087e68]">
+      <a key="dl3" href="#" className="text-xs font-semibold text-primary">
         دریافت
       </a>,
     ],
   ].map((row) => (
-    <tr
-      key={String(row[0])}
-      className="border-t border-[#f0f1ee] text-[#44514a]"
-    >
+    <tr key={String(row[0])} className="border-t border-border text-foreground">
       {row.map((cell, index) => (
         <td key={String(index)} className="px-4 py-3">
           {cell}
@@ -53,25 +50,27 @@ export default function ReportsPage() {
       description={copy.description}
       active={copy.title}
     >
-      <div className="rounded-2xl border border-[#e9ece8] bg-white p-5">
-        <div className="mb-4 flex items-center justify-between border-b border-[#edf0ed] pb-3">
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <div className="mb-4 flex items-center justify-between border-b border-border pb-3">
           <div>
-            <p className="mb-1 text-[10px] text-[#818b85]">فیلتر گزارش‌ها</p>
+            <p className="mb-1 text-[10px] text-muted-foreground">
+              فیلتر گزارش‌ها
+            </p>
             <div className="flex gap-2">
               <select
                 defaultValue="هفتهٔ اخیر"
-                className="h-9 rounded-lg border border-[#e5e9e5] bg-[#fcfcfb] px-3 text-xs font-normal outline-none focus:border-[#92bda9]"
+                className="h-9 rounded-lg border border-border bg-card px-3 text-xs font-normal outline-none focus:border-primary"
               >
                 <option>هفتهٔ اخیر</option>
                 <option>ماه قبل</option>
                 <option>سه ماهه اخیر</option>
               </select>
-              <button className="rounded-lg border border-[#e6e9e5] px-4 text-xs font-semibold">
+              <button className="rounded-lg border border-border px-4 text-xs font-semibold">
                 اعمال
               </button>
             </div>
           </div>
-          <button className="flex h-9 items-center gap-1.5 rounded-lg bg-[#087e68] px-5 text-xs font-bold text-white">
+          <button className="flex h-9 items-center gap-1.5 rounded-lg bg-primary px-5 text-xs font-bold text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={15}
@@ -91,7 +90,7 @@ export default function ReportsPage() {
           </button>
         </div>
         <DataTable title="گزارش‌های تولید شده" columns={columns} rows={rows} />
-        <p className="mt-4 text-xs text-[#89938c]">{copy.empty}</p>
+        <p className="mt-4 text-xs text-muted-foreground">{copy.empty}</p>
       </div>
     </AdminLayout>
   );

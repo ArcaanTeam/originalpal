@@ -26,11 +26,11 @@ export default function BannerEditPage({ banner }: BannerEditPageProps) {
       />
       <div className="grid gap-6 md:grid-cols-4">
         <BannerEditCard banner={banner} />
-        <div className="rounded-xl border border-[#e9ece8] bg-white p-4 md:col-span-1">
-          <p className="mb-2 text-[10px] font-bold text-[#087e68]">عملیات</p>
+        <div className="rounded-xl border border-border bg-card p-4 md:col-span-1">
+          <p className="mb-2 text-[10px] font-bold text-primary">عملیات</p>
           <Link
             href="/admin/banners"
-            className="block w-full rounded-lg border border-[#e6e9e5] px-4 py-2.5 text-xs font-semibold text-[#526057] hover:bg-[#f5f7f5]"
+            className="block w-full rounded-lg border border-border px-4 py-2.5 text-xs font-semibold text-[#526057] hover:bg-muted"
           >
             {copy.back}
           </Link>

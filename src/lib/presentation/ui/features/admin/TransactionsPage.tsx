@@ -15,26 +15,28 @@ export default function TransactionsPage() {
       description={copy.description}
       active={copy.title}
     >
-      <div className="rounded-2xl border border-[#e9ece8] bg-white p-5">
-        <div className="mb-4 flex items-center justify-between border-b border-[#edf0ed] pb-3">
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <div className="mb-4 flex items-center justify-between border-b border-border pb-3">
           <div>
-            <p className="mb-1 text-[10px] text-[#818b85]">فیلتر تراکنش‌ها</p>
+            <p className="mb-1 text-[10px] text-muted-foreground">
+              فیلتر تراکنش‌ها
+            </p>
             <div className="flex gap-2">
               <select
                 defaultValue="همه"
-                className="h-9 rounded-lg border border-[#e5e9e5] bg-[#fcfcfb] px-3 text-xs font-normal outline-none focus:border-[#92bda9]"
+                className="h-9 rounded-lg border border-border bg-card px-3 text-xs font-normal outline-none focus:border-primary"
               >
                 <option>همه</option>
                 <option>واریز</option>
                 <option>بازپرداخت</option>
                 <option>خرید</option>
               </select>
-              <button className="rounded-lg border border-[#e6e9e5] px-4 text-xs font-semibold">
+              <button className="rounded-lg border border-border px-4 text-xs font-semibold">
                 اعمال
               </button>
             </div>
           </div>
-          <button className="flex h-9 items-center gap-1.5 rounded-lg bg-[#087e68] px-5 text-xs font-bold text-white">
+          <button className="flex h-9 items-center gap-1.5 rounded-lg bg-primary px-5 text-xs font-bold text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={15}
@@ -59,8 +61,8 @@ export default function TransactionsPage() {
           rows={rows}
         />
         {transactions.length === 0 && (
-          <div className="mt-6 rounded-2xl border border-dashed border-[#dce5de] bg-white px-5 py-16 text-center">
-            <span className="mx-auto mb-3 grid size-12 place-items-center rounded-2xl bg-[#eff6f2] text-[#087e68]">
+          <div className="mt-6 rounded-2xl border border-dashed border-[#dce5de] bg-card px-5 py-16 text-center">
+            <span className="mx-auto mb-3 grid size-12 place-items-center rounded-2xl bg-primary-soft text-primary">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={20}

@@ -26,8 +26,8 @@ export default function OrderDetailPage({ order }: OrderDetailPageProps) {
       />
       <div className="grid gap-4 md:grid-cols-3">
         <OrderDetailCard order={order} />
-        <div className="rounded-xl border border-[#e9ece8] bg-white p-4">
-          <p className="mb-2 text-[10px] font-bold text-[#087e68]">
+        <div className="rounded-xl border border-border bg-card p-4">
+          <p className="mb-2 text-[10px] font-bold text-primary">
             کالاهای سفارش داده‌شده
           </p>
           <div className="overflow-x-auto">
@@ -37,7 +37,7 @@ export default function OrderDetailPage({ order }: OrderDetailPageProps) {
                   {copy.itemColumns.map((col) => (
                     <th
                       key={col}
-                      className="px-4 py-2 text-[10px] font-semibold text-[#818b85]"
+                      className="px-4 py-2 text-[10px] font-semibold text-muted-foreground"
                     >
                       {col}
                     </th>
@@ -46,25 +46,25 @@ export default function OrderDetailPage({ order }: OrderDetailPageProps) {
               </thead>
               <tbody>
                 {order.items.map((item) => (
-                  <tr key={item.product} className="border-t border-[#f0f1ee]">
+                  <tr key={item.product} className="border-t border-border">
                     <td className="px-4 py-2">{item.product}</td>
                     <td className="px-4 py-2">{item.qty}</td>
                     <td className="px-4 py-2">
                       {formatToman(item.unitPrice)} تومان
                     </td>
-                    <td className="px-4 py-2 font-bold text-[#087e68]">
+                    <td className="px-4 py-2 font-bold text-primary">
                       {formatToman(item.amount)} تومان
                     </td>
                   </tr>
                 ))}
-                <tr className="border-t border-[#263630]/10">
+                <tr className="border-t border-foreground/10">
                   <td
-                    className="px-4 py-2 font-bold text-[#173a30]"
+                    className="px-4 py-2 font-bold text-foreground"
                     colSpan={3}
                   >
                     مبلغ کل
                   </td>
-                  <td className="px-4 py-2 font-black text-[#263630]">
+                  <td className="px-4 py-2 font-black text-foreground">
                     {formatToman(order.total)} تومان
                   </td>
                 </tr>
@@ -75,19 +75,15 @@ export default function OrderDetailPage({ order }: OrderDetailPageProps) {
       </div>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border border-[#e9ece8] bg-white p-4">
-          <p className="mb-2 text-[10px] font-bold text-[#087e68]">
-            آدرس ارسال
-          </p>
-          <p className="text-sm whitespace-pre-line text-[#263630]">
+        <div className="rounded-xl border border-border bg-card p-4">
+          <p className="mb-2 text-[10px] font-bold text-primary">آدرس ارسال</p>
+          <p className="text-sm whitespace-pre-line text-foreground">
             {order.shippingAddress}
           </p>
         </div>
-        <div className="rounded-xl border border-[#e9ece8] bg-white p-4">
-          <p className="mb-2 text-[10px] font-bold text-[#087e68]">
-            روش پرداخت
-          </p>
-          <p className="text-sm text-[#263630]">{order.paymentMethod}</p>
+        <div className="rounded-xl border border-border bg-card p-4">
+          <p className="mb-2 text-[10px] font-bold text-primary">روش پرداخت</p>
+          <p className="text-sm text-foreground">{order.paymentMethod}</p>
         </div>
       </div>
     </AdminLayout>

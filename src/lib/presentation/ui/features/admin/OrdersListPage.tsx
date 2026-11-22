@@ -15,11 +15,11 @@ export default function OrdersListPage() {
       description={copy.description}
       active={copy.title}
     >
-      <div className="rounded-2xl border border-[#e9ece8] bg-white p-5">
+      <div className="rounded-2xl border border-border bg-card p-5">
         <DataTable title="فهرست سفارشات" columns={copy.columns} rows={rows} />
         {orders.length === 0 && (
-          <div className="mt-6 rounded-2xl border border-dashed border-[#dce5de] bg-white px-5 py-16 text-center">
-            <span className="mx-auto mb-3 grid size-12 place-items-center rounded-2xl bg-[#eff6f2] text-[#087e68]">
+          <div className="mt-6 rounded-2xl border border-dashed border-[#dce5de] bg-card px-5 py-16 text-center">
+            <span className="mx-auto mb-3 grid size-12 place-items-center rounded-2xl bg-primary-soft text-primary">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={20}
