@@ -5,6 +5,7 @@ import {
   Clock,
   CreditCard,
   Layout,
+  Package,
   RotateCcw,
   ShoppingBag,
   Truck,
@@ -14,6 +15,11 @@ import type { Order } from "./adminData";
 import type { ReturnItem } from "./adminData";
 import type { Transaction } from "./adminData";
 import type { Shipment } from "./adminData";
+import type { Product } from "./adminData";
+import type { Category } from "./adminData";
+import type { Brand } from "./adminData";
+import type { Attribute } from "./adminData";
+import type { InventoryItem } from "./adminData";
 
 const ADMIN_MUTED = "#58655f";
 
@@ -24,6 +30,11 @@ export const adminLinks = [
   { label: "مرجوعی‌ها", href: "/admin/returns", icon: RotateCcw },
   { label: "تراکنش‌ها", href: "/admin/transactions", icon: CreditCard },
   { label: "ارسال و حمل‌ونقل", href: "/admin/shipping", icon: Truck },
+  { label: "محصولات", href: "/admin/products", icon: Package },
+  { label: "دسته‌بندی‌ها", href: "/admin/categories", icon: Layout },
+  { label: "برندها", href: "/admin/brands", icon: ShoppingBag },
+  { label: "ویژگی‌ها", href: "/admin/attributes", icon: Clock },
+  { label: "موجودی انبار", href: "/admin/inventory", icon: Truck },
 ];
 
 export interface AdminLayoutProps {
@@ -235,6 +246,8 @@ const STATUS_CONFIG: Record<string, { color: string; bg: string }> = {
   failed: { color: "#b00020", bg: "#fdecea" },
   delivered: { color: "#087e68", bg: "#eaf4ef" },
   returned: { color: "#b00020", bg: "#fdecea" },
+  active: { color: "#087e68", bg: "#eaf4ef" },
+  inactive: { color: "#59655f", bg: "#f5f7f5" },
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -249,6 +262,8 @@ const STATUS_LABELS: Record<string, string> = {
   failed: "ناموفق",
   delivered: "تحویل شده",
   returned: "برگشتاده",
+  active: "فعال",
+  inactive: "غیرفعال",
 };
 
 export function StatusBadge({ status }: StatusBadgeProps) {
@@ -401,6 +416,203 @@ export function PageHeader({ title, backHref, backLabel }: PageHeaderProps) {
         {backLabel}
       </Link>
       <h1 className="text-xl font-black text-[#173a30]">{title}</h1>
+    </div>
+  );
+}
+
+export interface CatalogRowProps {
+  id: string;
+  name: string;
+  extra: string;
+  status: string;
+  statusConfig?: { color: string; bg: string };
+  statusLabel?: string;
+}
+
+export function ProductRow({ product }: { product: Product }) {
+  const statusConfig: Record<
+    string,
+    { color: string; bg: string; label: string }
+  > = {
+    active: { color: "#087e68", bg: "#eaf4ef", label: "فعال" },
+    draft: { color: "#59655f", bg: "#f5f7f5", label: "پیش‌نویس" },
+    archived: { color: "#b00020", bg: "#fdecea", label: "بایسته" },
+  };
+  const config = statusConfig[product.status] ?? {
+    color: ADMIN_MUTED,
+    bg: "#f5f7f5",
+    label: product.status,
+  };
+  return (
+    <tr key={product.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{product.id}</td>
+      <td className="px-4 py-3">{product.name}</td>
+      <td className="px-4 py-3">{product.category}</td>
+      <td className="px-4 py-3">{formatToman(product.price)} تومان</td>
+      <td className="px-4 py-3">{product.stock}</td>
+      <td className="px-4 py-3">
+        <span
+          className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold text-[${config.color}] bg-[${config.bg}]`}
+        >
+          {config.label}
+        </span>
+      </td>
+    </tr>
+  );
+}
+
+export function CategoryRow({ category }: { category: Category }) {
+  return (
+    <tr key={category.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{category.id}</td>
+      <td className="px-4 py-3">{category.name}</td>
+      <td className="px-4 py-3">{category.productCount}</td>
+      <td className="px-4 py-3">
+        <StatusBadge
+          status={category.status === "active" ? "active" : "inactive"}
+        />
+      </td>
+    </tr>
+  );
+}
+
+export function BrandRow({ brand }: { brand: Brand }) {
+  return (
+    <tr key={brand.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{brand.id}</td>
+      <td className="px-4 py-3">{brand.name}</td>
+      <td className="px-4 py-3">{brand.productCount}</td>
+      <td className="px-4 py-3">
+        <StatusBadge
+          status={brand.status === "active" ? "active" : "inactive"}
+        />
+      </td>
+    </tr>
+  );
+}
+
+export function AttributeRow({ attribute }: { attribute: Attribute }) {
+  const typeLabels: Record<string, string> = {
+    text: "متن",
+    number: "عدد",
+    select: "انتخابی",
+  };
+  return (
+    <tr key={attribute.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{attribute.id}</td>
+      <td className="px-4 py-3">{attribute.name}</td>
+      <td className="px-4 py-3">
+        {typeLabels[attribute.type] ?? attribute.type}
+      </td>
+      <td className="px-4 py-3">{attribute.filterable ? "بله" : "خیر"}</td>
+    </tr>
+  );
+}
+
+export function InventoryRow({ item }: { item: InventoryItem }) {
+  const statusConfig: Record<
+    string,
+    { color: string; bg: string; label: string }
+  > = {
+    ok: { color: "#087e68", bg: "#eaf4ef", label: "مستقر" },
+    low: { color: "#59655f", bg: "#f5f7f5", label: "کم موجودی" },
+    out: { color: "#b00020", bg: "#fdecea", label: "ناموجود" },
+  };
+  const config = statusConfig[item.status] ?? {
+    color: ADMIN_MUTED,
+    bg: "#f5f7f5",
+    label: item.status,
+  };
+  return (
+    <tr key={item.id} className="border-t border-[#f0f1ee] text-[#44514a]">
+      <td className="px-4 py-3 font-bold text-[#087e68]">{item.id}</td>
+      <td className="px-4 py-3">{item.product}</td>
+      <td className="px-4 py-3">{item.stock}</td>
+      <td className="px-4 py-3">{item.minStock}</td>
+      <td className="px-4 py-3">
+        <span
+          className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold text-[${config.color}] bg-[${config.bg}]`}
+        >
+          {config.label}
+        </span>
+      </td>
+    </tr>
+  );
+}
+
+export interface ProductDetailCardProps {
+  product: Product;
+}
+
+export function ProductDetailCard({ product }: ProductDetailCardProps) {
+  return (
+    <div className="rounded-xl border border-[#e9ece8] bg-white p-4">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div>
+          <p className="text-[10px] text-[#818b85]">شناسه محصول</p>
+          <p className="text-sm font-bold text-[#173a30]">{product.id}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">نام محصول</p>
+          <p className="text-sm font-bold text-[#173a30]">{product.name}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">SKU</p>
+          <p className="text-sm font-bold text-[#173a30]">{product.sku}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">دسته‌بندی</p>
+          <p className="text-sm font-bold text-[#173a30]">{product.category}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">برند</p>
+          <p className="text-sm font-bold text-[#173a30]">{product.brand}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">قیمت</p>
+          <p className="text-sm font-black text-[#263630]">
+            {formatToman(product.price)} تومان
+          </p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">موجودی</p>
+          <p className="text-sm font-bold text-[#173a30]">{product.stock}</p>
+        </div>
+        <div>
+          <p className="text-[10px] text-[#818b85]">وضعیت</p>
+          <p className="mt-1">
+            <span
+              className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold ${product.status === "active" ? "bg-[#eaf4ef] text-[#087e68]" : product.status === "draft" ? "bg-[#f5f7f5] text-[#59655f]" : "bg-[#fdecea] text-[#b00020]"}`}
+            >
+              {product.status === "active"
+                ? "فعال"
+                : product.status === "draft"
+                  ? "پیش‌نویس"
+                  : "بایسته"}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function InventoryStatCard({
+  label,
+  value,
+  delta,
+}: {
+  label: string;
+  value: string;
+  delta?: string;
+}) {
+  return (
+    <div className="rounded-xl border border-white/70 bg-white/75 p-3">
+      <p className="text-[9px] text-[#7d8982]">{label}</p>
+      <p className="mt-2 text-sm font-black text-[#263630]">{value}</p>
+      {delta && (
+        <p className="mt-1 text-[10px] font-semibold text-[#087e68]">{delta}</p>
+      )}
     </div>
   );
 }

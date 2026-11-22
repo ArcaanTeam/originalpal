@@ -31,4 +31,38 @@ describe("adminCopy", () => {
     expect(adminCopy.common.back).toBe("بازگشت");
     expect(adminCopy.common.save).toBe("ذخیره تغییرات");
   });
+
+  it("has products copy", () => {
+    expect(adminCopy.products.title).toBe("محصولات");
+    expect(adminCopy.products.add).toBe("افزودن محصول");
+    expect(adminCopy.products.empty).toBe("محصولی یافت نشد.");
+  });
+
+  it("has product edit copy", () => {
+    expect(adminCopy.productEdit.title).toBe("ویرایش محصول");
+    expect(adminCopy.productEdit.name).toBe("نام محصول");
+    expect(adminCopy.productEdit.sku).toBe("شناسه داخلی (SKU)");
+    expect(adminCopy.productEdit.back).toBe("بازگشت به فهرست محصولات");
+  });
+
+  it("has categories copy", () => {
+    expect(adminCopy.categories.title).toBe("دسته‌بندی‌ها");
+    expect(adminCopy.categories.add).toBe("افزودن دسته‌بندی");
+    expect(adminCopy.categories.empty).toBe("دسته‌بندی‌ای یافت نشد.");
+  });
+
+  it("has brands copy", () => {
+    expect(adminCopy.brands.title).toBe("برندها");
+    expect(adminCopy.brands.empty).toBe("برندی یافت نشد.");
+  });
+
+  it("has attributes copy", () => {
+    expect(adminCopy.attributes.title).toBe("ویژگی‌ها");
+    expect(adminCopy.attributes.empty).toBe("ویژگی‌ای تعریف نشده است.");
+  });
+
+  it("has inventory copy", () => {
+    expect(adminCopy.inventory.title).toBe("موجودی انبار");
+    expect(adminCopy.inventory.empty).toBe("رکورد انبارداری یافت نشد.");
+  });
 });

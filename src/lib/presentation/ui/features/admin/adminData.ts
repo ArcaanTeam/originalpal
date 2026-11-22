@@ -230,12 +230,186 @@ export const shipments: Shipment[] = [
   },
 ];
 
+export type ProductStatus = "active" | "draft" | "archived";
+
+export interface Product {
+  id: string;
+  name: string;
+  sku: string;
+  category: string;
+  brand: string;
+  price: number;
+  stock: number;
+  status: ProductStatus;
+}
+
+export const products: Product[] = [
+  {
+    id: "PR-5001",
+    name: "گوشی سامسونگ Galaxy A55",
+    sku: "SAM-A55-128",
+    category: "موبایل",
+    brand: "سامسونگ",
+    price: 23890000,
+    stock: 42,
+    status: "active",
+  },
+  {
+    id: "PR-5002",
+    name: "هدفون بی‌سیم سونی WH-1000XM5",
+    sku: "SONY-WH1000XM5",
+    category: "صوت و تصویر",
+    brand: "سونی",
+    price: 15500000,
+    stock: 18,
+    status: "active",
+  },
+  {
+    id: "PR-5003",
+    name: "ساعت هوشمند اپل SE",
+    sku: "APPLE-WATCH-SE",
+    category: "ساعت هوشمند",
+    brand: "اپل",
+    price: 15600000,
+    stock: 6,
+    status: "active",
+  },
+  {
+    id: "PR-5004",
+    name: "اسپیکر JBL Flip 6",
+    sku: "JBL-FLIP-6",
+    category: "صوت و تصویر",
+    brand: "JBL",
+    price: 6290000,
+    stock: 0,
+    status: "archived",
+  },
+  {
+    id: "PR-5005",
+    name: "لپ‌تاپ ایسوس ZenBook 14",
+    sku: "ASUS-ZENBOOK-14",
+    category: "لپ‌تاپ",
+    brand: "اسوس",
+    price: 72500000,
+    stock: 3,
+    status: "draft",
+  },
+];
+
+export type CategoryStatus = "active" | "inactive";
+
+export interface Category {
+  id: string;
+  name: string;
+  productCount: number;
+  status: CategoryStatus;
+}
+
+export const categories: Category[] = [
+  { id: "CT-6001", name: "موبایل", productCount: 142, status: "active" },
+  { id: "CT-6002", name: "لپ‌تاپ", productCount: 87, status: "active" },
+  { id: "CT-6003", name: "صوت و تصویر", productCount: 53, status: "active" },
+  { id: "CT-6004", name: "ساعت هوشمند", productCount: 29, status: "inactive" },
+];
+
+export type BrandStatus = "active" | "inactive";
+
+export interface Brand {
+  id: string;
+  name: string;
+  productCount: number;
+  status: BrandStatus;
+}
+
+export const brands: Brand[] = [
+  { id: "BR-7001", name: "سامسونگ", productCount: 38, status: "active" },
+  { id: "BR-7002", name: "سونی", productCount: 24, status: "active" },
+  { id: "BR-7003", name: "اپل", productCount: 31, status: "active" },
+  { id: "BR-7004", name: "JBL", productCount: 12, status: "inactive" },
+];
+
+export interface Attribute {
+  id: string;
+  name: string;
+  type: "text" | "number" | "select";
+  filterable: boolean;
+}
+
+export const attributes: Attribute[] = [
+  { id: "AT-8001", name: "رنگ", type: "select", filterable: true },
+  { id: "AT-8002", name: "حافظه داخلی", type: "number", filterable: true },
+  { id: "AT-8003", name: "وزن", type: "number", filterable: false },
+  { id: "AT-8004", name: "گارانتی (ماه)", type: "number", filterable: true },
+];
+
+export interface InventoryItem {
+  id: string;
+  product: string;
+  stock: number;
+  minStock: number;
+  status: "ok" | "low" | "out";
+}
+
+export const inventory: InventoryItem[] = [
+  {
+    id: "IN-9001",
+    product: "گوشی سامسونگ Galaxy A55",
+    stock: 42,
+    minStock: 10,
+    status: "ok",
+  },
+  {
+    id: "IN-9002",
+    product: "هدفون بی‌سیم سونی WH-1000XM5",
+    stock: 18,
+    minStock: 5,
+    status: "ok",
+  },
+  {
+    id: "IN-9003",
+    product: "ساعت هوشمند اپل SE",
+    stock: 6,
+    minStock: 10,
+    status: "low",
+  },
+  {
+    id: "IN-9004",
+    product: "اسپیکر JBL Flip 6",
+    stock: 0,
+    minStock: 5,
+    status: "out",
+  },
+  {
+    id: "IN-9005",
+    product: "لپ‌تاپ ایسوس ZenBook 14",
+    stock: 3,
+    minStock: 5,
+    status: "low",
+  },
+];
+
 export function findOrder(id: string): Order | undefined {
   return orders.find((order) => order.id === id);
 }
 
 export function findReturn(id: string): ReturnItem | undefined {
   return returns.find((item) => item.id === id);
+}
+
+export function findProduct(id: string): Product | undefined {
+  return products.find((product) => product.id === id);
+}
+
+export function findCategory(id: string): Category | undefined {
+  return categories.find((category) => category.id === id);
+}
+
+export function findBrand(id: string): Brand | undefined {
+  return brands.find((brand) => brand.id === id);
+}
+
+export function findAttribute(id: string): Attribute | undefined {
+  return attributes.find((attribute) => attribute.id === id);
 }
 
 export function formatToman(value: number): string {
