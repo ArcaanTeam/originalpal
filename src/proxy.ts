@@ -15,7 +15,35 @@ import {
   getPageRoutePermissions,
 } from "@/lib/presentation/auth/route-permissions";
 
-const PUBLIC_PATHS = ["/login", "/api/auth/login", "/api/auth/refresh"];
+const PUBLIC_PATHS = [
+  "/",
+  "/login",
+  "/store",
+  "/categories",
+  "/deals",
+  "/category",
+  "/search",
+  "/compare",
+  "/product",
+  "/reviews",
+  "/cart",
+  "/checkout",
+  "/account/login",
+  "/account/profile",
+  "/account/orders",
+  "/account/returns",
+  "/account/wishlist",
+  "/account/addresses",
+  "/account/wallet",
+  "/account/reviews",
+  "/account/messages",
+  "/magazine",
+  "/contact",
+  "/faq",
+  "/pages",
+  "/api/auth/login",
+  "/api/auth/refresh",
+];
 
 function isPublicPath(pathname: string): boolean {
   return PUBLIC_PATHS.some(
@@ -101,7 +129,7 @@ export async function proxy(request: NextRequest) {
 
   if (pathname === "/login") {
     if (session) {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
     }
     return NextResponse.next();
   }

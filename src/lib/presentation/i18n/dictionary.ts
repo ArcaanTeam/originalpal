@@ -80,6 +80,16 @@ export type Dictionary = {
     title: string;
     description: string;
   };
+  notFound: {
+    title: string;
+    description: string;
+    homeButton: string;
+  };
+  serverError: {
+    title: string;
+    description: string;
+    homeButton: string;
+  };
   errors: {
     title: string;
     fallback: string;

@@ -8,7 +8,7 @@ export function resolvePostLoginPath(redirectTo: string | null): string {
     redirectTo.startsWith("/login?") ||
     redirectTo.startsWith("/login/")
   ) {
-    return "/";
+    return "/admin/dashboard";
   }
 
   return redirectTo;

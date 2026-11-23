@@ -186,7 +186,7 @@ function ToolbarIconButton({
           type="button"
           variant="ghost"
           size="icon-sm"
-          className="markdown-editor-toolbar-btn tree-glass-btn-ghost size-9 rounded-xl"
+          className="markdown-editor-toolbar-btn size-9 rounded-xl"
           disabled={!editorView}
           aria-label={action.label}
           onClick={() => {
@@ -272,14 +272,14 @@ export default function MarkdownEditorToolbar({
       </div>
       {documentToolbar ? (
         <div
-          className="markdown-editor-toolbar-document flex shrink-0 items-center gap-1 border-s border-[var(--tree-glass-border-subtle)] ps-1.5"
+          className="markdown-editor-toolbar-document flex shrink-0 items-center gap-1 border-s border-[var(--border)] ps-1.5"
           role="group"
           aria-label="عملیات یادداشت"
         >
           <Button
             type="button"
             size="sm"
-            className="markdown-editor-toolbar-save tree-glass-btn-primary h-9 rounded-xl px-3"
+            className="markdown-editor-toolbar-save h-9 rounded-xl px-3"
             onClick={documentToolbar.onClickSave}
             loading={documentToolbar.isSaving}
             disabled={documentActionsDisabled}
@@ -292,7 +292,7 @@ export default function MarkdownEditorToolbar({
                 type="button"
                 variant="ghost"
                 size="icon-sm"
-                className="markdown-editor-toolbar-btn tree-glass-btn-ghost size-9 rounded-xl"
+                className="markdown-editor-toolbar-btn size-9 rounded-xl"
                 disabled={documentActionsDisabled}
                 aria-label={documentToolbar.translations.clear}
                 onClick={documentToolbar.onClear}
@@ -310,7 +310,7 @@ export default function MarkdownEditorToolbar({
                 type="button"
                 variant="ghost"
                 size="icon-sm"
-                className="markdown-editor-toolbar-btn tree-glass-btn-ghost size-9 rounded-xl"
+                className="markdown-editor-toolbar-btn size-9 rounded-xl"
                 disabled={documentActionsDisabled || !canUndo}
                 aria-label={documentToolbar.translations.undo}
                 onClick={onClickUndo}
@@ -328,7 +328,7 @@ export default function MarkdownEditorToolbar({
                 type="button"
                 variant="ghost"
                 size="icon-sm"
-                className="markdown-editor-toolbar-btn tree-glass-btn-ghost size-9 rounded-xl"
+                className="markdown-editor-toolbar-btn size-9 rounded-xl"
                 disabled={documentActionsDisabled || !canRedo}
                 aria-label={documentToolbar.translations.redo}
                 onClick={onClickRedo}

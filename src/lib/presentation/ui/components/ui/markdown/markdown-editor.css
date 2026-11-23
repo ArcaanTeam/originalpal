@@ -6,8 +6,8 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: 0.75rem;
-  background: var(--tree-glass-input-bg, rgba(0, 0, 0, 0.22));
-  color: var(--tree-glass-text);
+  background: var(--card);
+  color: var(--foreground);
 }
 
 .markdown-editor-body {
@@ -28,13 +28,13 @@
 .markdown-editor-split-handle {
   flex-shrink: 0;
   width: 6px;
-  background: var(--tree-glass-border-subtle);
+  background: var(--border);
   transition: background-color 0.15s ease;
 }
 
 .markdown-editor-split-handle:hover,
 .markdown-editor-split-handle[data-separator="active"] {
-  background: color-mix(in srgb, var(--tree-glass-muted) 55%, transparent);
+  background: color-mix(in srgb, var(--muted-foreground) 55%, transparent);
 }
 
 .markdown-editor-shell--loading {
@@ -57,20 +57,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: color-mix(
-    in srgb,
-    var(--tree-glass-input-bg, rgba(0, 0, 0, 0.22)) 72%,
-    transparent
-  );
+  background: color-mix(in srgb, var(--card) 72%, transparent);
   backdrop-filter: blur(2px);
 }
 
 .markdown-editor-loading-spinner {
-  color: color-mix(in srgb, var(--tree-glass-muted) 88%, transparent);
+  color: color-mix(in srgb, var(--muted-foreground) 88%, transparent);
 }
 
 .markdown-editor-loading-label {
-  color: color-mix(in srgb, var(--tree-glass-muted) 75%, transparent);
+  color: color-mix(in srgb, var(--muted-foreground) 75%, transparent);
 }
 
 .markdown-editor-pane {
@@ -141,6 +137,6 @@
 }
 
 .markdown-editor-toolbar {
-  background: var(--tree-glass-tabs-bg, rgba(0, 0, 0, 0.16));
-  border-bottom-color: var(--tree-glass-border-subtle);
+  background: var(--muted);
+  border-bottom-color: var(--border);
 }

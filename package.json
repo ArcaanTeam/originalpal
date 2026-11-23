@@ -16,6 +16,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "db:create": "node scripts/create-database.mjs",
     "migrate:deploy": "node scripts/migrate.mjs",
     "migrate:diff": "node scripts/migrate-diff.mjs",
     "db:seed": "node scripts/seed.mjs",
