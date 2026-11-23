@@ -234,7 +234,7 @@ export default function StorefrontCartUI({
           {items.map((item) => (
             <article
               key={item.id}
-              className="flex gap-3 rounded-xl border border-border bg-white p-3 sm:gap-4 sm:p-4"
+              className="flex-col gap-3 rounded-xl border border-border bg-white p-3 sm:flex sm:flex-row sm:gap-4 sm:p-4"
             >
               <Link href={`/product/${item.slug}`}>
                 <Illustration line={item} />

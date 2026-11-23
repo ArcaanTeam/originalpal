@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import {
   ArrowLeft,
   BookOpen,
@@ -16,7 +19,9 @@ import {
   Tablet,
   Truck,
   Watch,
+  X,
 } from "lucide-react";
+import { useAuthSession } from "@/lib/presentation/ui/auth/use-auth-session";
 import CartCount from "../StorefrontCart/CartCount";
 
 const categories = [
@@ -150,6 +155,9 @@ const articles = [
 ];
 
 export function StoreHeader() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { sessionActive } = useAuthSession();
+
   return (
     <>
       <header className="bg-primary text-primary-foreground">
@@ -209,6 +217,7 @@ export function StoreHeader() {
               </span>
             </Link>
             <button
+              onClick={() => setDrawerOpen(true)}
               aria-label="باز کردن منو"
               className="grid size-10 place-items-center rounded-lg bg-white/10"
             >
@@ -217,6 +226,44 @@ export function StoreHeader() {
           </div>
         </div>
       </header>
+
+      {/* Mobile drawer menu — slides in from the right (RTL). */}
+      {drawerOpen && (
+        <div className="fixed inset-0 z-50 sm:hidden" aria-hidden={!drawerOpen}>
+          <button
+            onClick={() => setDrawerOpen(false)}
+            aria-label="بستن منو"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+          />
+          <div
+            className="absolute inset-y-0 right-0 w-full max-w-xs transform bg-primary p-6 text-primary-foreground shadow-2xl transition-transform duration-300 sm:translate-x-0"
+            style={{ transform: "translateX(100%)" }}
+          >
+            <div className="mb-8 flex items-center justify-between">
+              <h2 className="text-lg font-extrabold">فهرست منو</h2>
+              <button
+                onClick={() => setDrawerOpen(false)}
+                aria-label="بستن منو"
+                className="grid size-9 place-items-center rounded-lg bg-white/10 hover:bg-white/20"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <nav className="space-y-1">
+              <DrawerLink href="/" label="خانه" />
+              <DrawerLink href="/categories" label="دسته‌بندی‌ها" />
+              <DrawerLink href="/deals" label="تخفیف‌ها" />
+              <DrawerLink href="/cart" label="سبد خرید" />
+              {sessionActive ? (
+                <DrawerLink href="/account/profile" label="حساب من" />
+              ) : (
+                <DrawerLink href="/account/login" label="ورود به حساب" />
+              )}
+            </nav>
+          </div>
+        </div>
+      )}
+
       <nav
         aria-label="دسته‌بندی اصلی"
         className="hidden border-b border-border bg-white md:block"
@@ -256,6 +303,17 @@ export function StoreHeader() {
         />
       </form>
     </>
+  );
+}
+
+function DrawerLink({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-white/10"
+    >
+      <span>{label}</span>
+    </Link>
   );
 }
 
