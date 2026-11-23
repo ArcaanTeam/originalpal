@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   BookOpen,
@@ -156,7 +156,19 @@ const articles = [
 
 export function StoreHeader() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const { sessionActive } = useAuthSession();
+
+  // Slide the drawer in from off-screen when it opens so tapping the hamburger
+  // actually reveals the menu instead of only showing the backdrop blur.
+  useEffect(() => {
+    if (!drawerOpen || !drawerRef.current) return;
+    const el = drawerRef.current;
+    el.style.transform = "translateX(100%)";
+    requestAnimationFrame(() => {
+      el.style.transform = "translateX(0)";
+    });
+  }, [drawerOpen]);
 
   return (
     <>
@@ -236,8 +248,8 @@ export function StoreHeader() {
             className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
           />
           <div
-            className="absolute inset-y-0 right-0 w-full max-w-xs transform bg-primary p-6 text-primary-foreground shadow-2xl transition-transform duration-300 sm:translate-x-0"
-            style={{ transform: "translateX(100%)" }}
+            ref={drawerRef}
+            className="absolute inset-y-0 right-0 w-full max-w-xs transform bg-primary p-6 text-primary-foreground shadow-2xl transition-transform duration-300"
           >
             <div className="mb-8 flex items-center justify-between">
               <h2 className="text-lg font-extrabold">فهرست منو</h2>
@@ -663,9 +675,9 @@ export default function StorefrontHomeUI() {
     <div
       dir="rtl"
       lang="fa"
-      className="min-h-screen bg-background pb-20 text-foreground sm:pb-0"
+      className="min-h-0 flex-1 overflow-y-auto bg-background pt-[var(--header-height)] pb-20 text-foreground sm:pb-0"
     >
-      <main className="mx-auto max-w-[1280px] space-y-8 px-4 py-5 sm:space-y-10 sm:px-8 sm:py-8">
+      <main className="mx-auto min-h-0 max-w-[1280px] space-y-8 px-4 py-5 sm:space-y-10 sm:px-8 sm:py-8">
         <HeroBanner />
         <section className="space-y-4">
           <SectionHeading title="دسته‌بندی‌های محبوب" href="/categories" />
