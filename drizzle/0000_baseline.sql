@@ -1,4 +1,4 @@
-CREATE SCHEMA "originalpal";
+CREATE SCHEMA IF NOT EXISTS "originalpal";
 --> statement-breakpoint
 CREATE TYPE "originalpal"."UserRole" AS ENUM('Admin', 'Member');--> statement-breakpoint
 CREATE TABLE "originalpal"."auth_sessions" (

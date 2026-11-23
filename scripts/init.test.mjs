@@ -209,6 +209,9 @@ describe("scripts/init", () => {
     const tempDir = createTempProjectCopy();
     tempDirs.push(tempDir);
 
+    const initialPackageName = JSON.parse(
+      readFileSync(path.join(tempDir, "package.json"), "utf8"),
+    ).name;
     const io = makeIo("orbit-app\n\n\n\nn\n");
     const result = await runInit([], {
       root: tempDir,
@@ -221,6 +224,6 @@ describe("scripts/init", () => {
     expect(result.status).toBe("aborted");
     expect(
       JSON.parse(readFileSync(path.join(tempDir, "package.json"), "utf8")).name,
-    ).toBe("nextjs-starter");
+    ).toBe(initialPackageName);
   });
 });

@@ -20,7 +20,6 @@ import MobileNavUI, {
   type MobileNavTabView,
 } from "@/lib/presentation/ui/layout/MobileNav";
 import type { MobileNavItemId } from "@/lib/presentation/ui/layout/MobileNav/mobileNavItems";
-import { APP_LIQUID_GLASS_CHIP_CLASS } from "@/lib/presentation/ui/layout/liquid-glass";
 import ThemeModeMenuGroup from "./ThemeModeMenuGroup";
 
 export interface AppHeaderUIProps {
@@ -50,9 +49,7 @@ export interface AppHeaderUIProps {
 }
 
 /**
- * Desktop: a floating glass avatar in the shell corner.
- * Mobile (panel-web chrome): a frosted top bar with the page title and the
- * account menu, plus a bottom tab bar.
+ * Account controls and responsive navigation.
  */
 export default function AppHeaderUI(props: AppHeaderUIProps) {
   return (
@@ -98,13 +95,7 @@ function AccountMenu(
         )}
         aria-label={props.translations.accountMenu}
       >
-        <Avatar
-          className={cn(
-            "size-9",
-            APP_LIQUID_GLASS_CHIP_CLASS,
-            props.avatarClassName,
-          )}
-        >
+        <Avatar className={cn("size-9", props.avatarClassName)}>
           <AvatarFallback className="bg-transparent text-sm font-semibold text-foreground">
             {props.usernameInitial}
           </AvatarFallback>

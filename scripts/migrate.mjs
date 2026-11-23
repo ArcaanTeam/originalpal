@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import pg from "pg";
+import { formatDatabaseError } from "./db-diagnostics.mjs";
 
 // ../drizzle next to this script, in the repo and in the Docker image.
 const MIGRATIONS_FOLDER = fileURLToPath(new URL("../drizzle", import.meta.url));
@@ -32,7 +33,12 @@ try {
   });
   console.log("Database migrations are up to date.");
 } catch (error) {
-  console.error(error instanceof Error ? error.message : error);
+  console.error(
+    formatDatabaseError(error, {
+      databaseUrl,
+      operation: "apply Drizzle migrations",
+    }),
+  );
   process.exitCode = 1;
 } finally {
   await pool.end();

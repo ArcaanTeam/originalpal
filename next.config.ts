@@ -8,8 +8,6 @@ const nextConfig: NextConfig = {
   output: "standalone",
   serverExternalPackages: ["pg"],
   reactCompiler: true,
-  cacheComponents: true,
-  partialPrefetching: true,
 };
 
 export default nextConfig;

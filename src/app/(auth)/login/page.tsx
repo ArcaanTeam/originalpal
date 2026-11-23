@@ -28,7 +28,6 @@ import {
 import { Input } from "@/lib/presentation/ui/components/ui/input";
 import { Label } from "@/lib/presentation/ui/components/ui/label";
 import { showErrorToast } from "@/lib/presentation/ui/feedback/show-feedback";
-import { APP_LIQUID_GLASS_CARD_CLASS } from "@/lib/presentation/ui/layout/liquid-glass";
 
 const loginCopy = getDictionary().login;
 const authCopy = getDictionary().auth;
@@ -96,13 +95,7 @@ function LoginForm() {
 
   return (
     <main className="flex min-h-full flex-1 items-center justify-center p-6">
-      <Card
-        data-auth-card
-        className={cn(
-          "w-full max-w-md gap-6 py-8",
-          APP_LIQUID_GLASS_CARD_CLASS,
-        )}
-      >
+      <Card data-auth-card className={cn("w-full max-w-md gap-6 py-8")}>
         <CardHeader className="text-center">
           <CardTitle>{loginCopy.title}</CardTitle>
           <CardDescription>{loginCopy.description}</CardDescription>

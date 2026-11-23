@@ -55,17 +55,21 @@ function formatFiles(root, files) {
 }
 
 function updateExistingEnv(envContent, current, next) {
-  const escapedDb = current.dbName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const existingDbName =
+    envContent.match(/5432\/([a-zA-Z0-9_-]+)/)?.[1] ?? current.dbName;
+  const escapedDb = existingDbName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   let updated = envContent.replace(
     new RegExp(`(5432/)${escapedDb}(?![a-z0-9_])`, "g"),
     `$1${next.snake}`,
   );
   updated = updated.replace(
-    `5432/${current.dbName}_test`,
+    `5432/${existingDbName}_test`,
     `5432/${next.snake}_test`,
   );
+  const currentIssuer =
+    envContent.match(/^JWT_ISSUER="([^"]+)"/m)?.[1] ?? current.jwtIssuer;
   updated = updated.replace(
-    `JWT_ISSUER="${current.jwtIssuer}"`,
+    `JWT_ISSUER="${currentIssuer}"`,
     `JWT_ISSUER="${next.name}-auth"`,
   );
   return updated;

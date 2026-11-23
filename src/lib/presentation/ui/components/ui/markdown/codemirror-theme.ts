@@ -12,7 +12,7 @@ export function createMarkdownEditorTheme(scale: number) {
         fontSize,
         fontFamily: "var(--font-sans)",
         backgroundColor: "transparent",
-        color: "var(--tree-glass-text)",
+        color: "var(--foreground)",
       },
       ".cm-editor": {
         backgroundColor: "transparent",
@@ -26,15 +26,14 @@ export function createMarkdownEditorTheme(scale: number) {
       },
       ".cm-content": {
         padding,
-        caretColor: "var(--tree-glass-text)",
-        color: "var(--tree-glass-text)",
+        caretColor: "var(--foreground)",
+        color: "var(--foreground)",
       },
       ".cm-cursor": {
-        borderInlineStartColor: "var(--tree-glass-text)",
+        borderInlineStartColor: "var(--foreground)",
       },
       ".cm-selectionBackground": {
-        backgroundColor:
-          "var(--tree-glass-highlight, rgba(255, 255, 255, 0.12)) !important",
+        backgroundColor: "var(--accent) !important",
       },
       ".cm-gutters": {
         display: "none",
