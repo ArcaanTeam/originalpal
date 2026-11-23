@@ -22,14 +22,14 @@ const fa: Dictionary = {
   },
   login: {
     title: "Originalpal",
-    description: "با نام کاربری و رمز عبور وارد شوید.",
-    usernameLabel: "نام کاربری",
+    description: "با شماره موبایل و رمز عبور وارد شوید.",
+    usernameLabel: "شماره موبایل",
     passwordLabel: "رمز عبور",
     submitButton: "ورود",
     errorTitle: "ورود ناموفق",
   },
   auth: {
-    invalidCredentials: "نام کاربری یا رمز عبور نادرست است.",
+    invalidCredentials: "شماره موبایل یا رمز عبور نادرست است.",
     signInFailed: "ورود ممکن نیست. دوباره تلاش کنید.",
     validationFailed: "لطفاً نام کاربری و رمز عبور را وارد کنید.",
     logoutButton: "خروج",
