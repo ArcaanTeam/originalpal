@@ -675,7 +675,7 @@ export default function StorefrontHomeUI() {
     <div
       dir="rtl"
       lang="fa"
-      className="min-h-0 flex-1 overflow-y-auto bg-background pt-[var(--header-height)] pb-20 text-foreground sm:pb-0"
+      className="min-h-0 flex-1 overflow-y-auto bg-background pb-20 text-foreground sm:pb-0"
     >
       <main className="mx-auto min-h-0 max-w-[1280px] space-y-8 px-4 py-5 sm:space-y-10 sm:px-8 sm:py-8">
         <HeroBanner />
